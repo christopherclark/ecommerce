@@ -19,11 +19,12 @@ class  Admin extends CI_Model {
 		$id = $post['id'];
 		$order_status = $post['order_status'];
 		$query = "UPDATE orders SET order_status = ? WHERE id = ?";
-		return $this->db->query($query, array($order_status, $id);
+		return $this->db->query($query, array($order_status, $id));
 	}
 
 	public function get_all_products()
 	{
+
 		$query = "SELECT * FROM products";
 		return $this->db->query($query)->result_array;
 	}
@@ -38,7 +39,7 @@ class  Admin extends CI_Model {
 		$query = "UPDATE products SET name = ?, description = ?, price = ?,
 		 in_stock = ?, updated_at = NOW() WHERE id = ?";
 		return $this->db->query($query, array(
-			$name, $description, $price, $in_stock, $id);
+			$name, $description, $price, $in_stock, $id));
 	}
 
 	public function delete_product($id)
@@ -57,7 +58,7 @@ class  Admin extends CI_Model {
 		 price, in_stock, quantity_sold, created_at, updated_at)
 			 VALUES (?, ?, ?, ?, 0,  NOW(), NOW())";
     		 return $this->db->query($query, array (
-    		 	$name, $description, $price, $in_stock);
+    		 	$name, $description, $price, $in_stock));
 	}
 
 }
