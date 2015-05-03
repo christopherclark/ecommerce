@@ -1,4 +1,4 @@
-<nav class="admins navbar navbar-default navbar-fixed-top">
+<nav class="admins navbar navbar-default">
 	<div class="container-fluid">
 		<ul class="nav navbar-header">
 			<li class="navbar-brand">Dashboard</li>
