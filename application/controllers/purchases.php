@@ -5,7 +5,7 @@ class  Purchases extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('purchase');
+		$this->load->model('Purchase');
 	}
 
 	public function index()
@@ -30,7 +30,7 @@ class  Purchases extends CI_Controller {
 
 	public function add_to_cart()
 	{
-
+		
 	}
 
 	public function view_cart()
