@@ -1,4 +1,4 @@
-<nav class="purchases navbar navbar-default navbar-fixed-top">
+<nav class="purchases navbar navbar-default">
 	<div class="container-fluid">
 		<ul class="nav navbar-header">
 			<p class="navbar-brand">H&H Supplies</p>
