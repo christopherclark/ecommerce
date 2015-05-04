@@ -5,7 +5,7 @@ class  Purchase extends CI_Model {
 	public function get_all_products()
 	{
 		$query = ("SELECT * FROM products");
-		return $this->db->query($query)->result_array;
+		return $this->db->query($query)->result_array();
 	}
 	public function count($post)
 	{
@@ -20,13 +20,13 @@ class  Purchase extends CI_Model {
 	public function get_all_categories()
 	{
 		$query = ("SELECT * FROM categories");
-		return $this->db->query($query)->result_array;
+		return $this->db->query($query)->result_array();
 	}
 
 	public function get_product_by_id($id)
 	{
 		$query = ("SELECT * FROM products WHERE id  = ?");
-		return $this->db->query($query, $id)->row_array;
+		return $this->db->query($query, $id)->row_array();
 	}
 
 }

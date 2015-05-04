@@ -22,7 +22,7 @@ class  Purchases extends CI_Controller {
 		$this->load->view('/purchases/all_products', $data);
 	}
 
-	public function get_product_by_id()
+	public function get_product_by_id($id)
 	{
 		$data['product'] = $this->Purchase->get_product_by_id($id);
 		$this->load->view('/purchases/view_product', $data);

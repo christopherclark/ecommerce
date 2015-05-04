@@ -3,4 +3,6 @@
 $route['default_controller'] = "purchases";
 $route['404_override'] = '';
 
+$route['products/show/(:any)'] = "purchases/get_product_by_id/$1";
+
 //end of routes.php
