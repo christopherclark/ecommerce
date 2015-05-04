@@ -75,7 +75,7 @@ class  Purchases extends CI_Controller {
 
 	public function view_cart()
 	{
-		$this->load->view('/purchases/checkout', $data);
+		$this->load->view('/purchases/checkout');
 	}
 
 	public function validate_billing()
