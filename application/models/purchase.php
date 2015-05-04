@@ -28,7 +28,7 @@ class  Purchase extends CI_Model {
 	}
 
 	public function get_product_by_id($id)
-	{.DS_Store
+	{
 		$query = ("SELECT * FROM products WHERE id  = ?");
 		return $this->db->query($query, $id)->row_array();
 	}
@@ -52,6 +52,6 @@ class  Purchase extends CI_Model {
 	// 	$query = "UPDATE products SET in_stock = ?, quantity_sold = ?, updated_at = NOW() WHERE id = ?";
 	// 	return $this->db->query($query, array());
 
-	}
+	// }
 
 }
