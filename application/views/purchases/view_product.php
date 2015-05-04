@@ -29,16 +29,19 @@
 					Description about the product... 
 					<?php } ?>
 				</p>
-				<form class="form-inline col-md-offset-8 col-md-4 col-sm-offset-8 col-sm-4 col-xs-offset-8 col-xs-4" action="/purchases/add_to_cart" method="post">
+				<form class="form-inline col-md-offset-8 col-md-4 col-sm-offset-8 col-sm-4 col-xs-offset-8 col-xs-4" 
+						action="/purchases/add_to_cart" method="post">
 					<div class="form-group">
-						<select name="product_qty">
+						<select name="quantity">
 							<option value="1">1 ($19.99)</option>
 							<option value="2">2 ($39.98)</option>
 							<option value="3">3 ($59.97)</option>
 						</select>
 					</div>
-					<input type="submit" value="Buy">
+					<input type = "hidden" name = "id" value = "<?= $id?>">
+					<input type="submit" value="Add to Cart">
 				</form>
+				<p id = "item_added"><?php echo $this->session->flashdata("success_message") ?></p>
 			</div> <!-- closes right third -->
 		</div>
 		<!-- SIMILAR ITEMS SECTION -->
