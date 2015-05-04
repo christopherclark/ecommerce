@@ -30,7 +30,7 @@ class  Purchases extends CI_Controller {
 
 	public function add_to_cart()
 	{
-
+		
 	}
 
 	public function view_cart()
