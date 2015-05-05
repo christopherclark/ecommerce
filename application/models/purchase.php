@@ -5,8 +5,10 @@ class  Purchase extends CI_Model {
 	public function get_all_products()
 	{
 
+
 		$query = "SELECT * FROM products";
-		return $this->db->query($query)->result_array;
+		
+		return $this->db->query($query)->result_array();
 	}
 	public function count($post)
 	{
@@ -19,20 +21,23 @@ class  Purchase extends CI_Model {
 			LEFT JOIN product_categories ON products.id = product_categories.product_id
 			 LEFT JOIN categories ON product_categories.category_id = categories.id
 			 WHERE categories.id = ?";
-		return $this->db->query($query, $post)->result_array;
+		return $this->db->query($query, $post)->result_array();
 	}
 
 	public function get_all_categories()
 	{
 
 		$query = "SELECT * FROM categories";
-		return $this->db->query($query)->result_array;
+
+		return $this->db->query($query)->result_array();
 	}
 
 	public function get_product_by_id($id)
 	{
+
 		$query = "SELECT * FROM products WHERE id  = ?";
-		return $this->db->query($query, $id)->row_array;
+
+		return $this->db->query($query, $id)->row_array();
 	}
 
 	// public function new_order($post)
@@ -54,6 +59,6 @@ class  Purchase extends CI_Model {
 	// 	$query = "UPDATE products SET in_stock = ?, quantity_sold = ?, updated_at = NOW() WHERE id = ?";
 	// 	return $this->db->query($query, array());
 
-	}
+	// }
 
 }
