@@ -5,8 +5,8 @@
 		</ul>
 		<ul class="nav navbar-nav navbar-right">
 			<li><a href="/purchases/view_cart">Shopping Cart (<?php
-					if(FALSE !== ($this->session->userdata('cart_count'))) {
-						echo $this->session->userdata('cart_count');
+					if(FALSE !== ($this->session->userdata('total_quantity'))) {
+						echo $this->session->userdata('total_quantity');
 					} else {
 						echo "0";
 					}
