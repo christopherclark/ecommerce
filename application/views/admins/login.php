@@ -11,6 +11,9 @@
 			text-align: center;
 			margin-top: 2em;
 		}
+		.red {
+			color: red;
+		}
 		form {
 			width: 20em;
 			margin: 3em auto;
@@ -22,7 +25,9 @@
 </head>
 <body>
 	<h2>Admin Login Page</h2>
-	<form>
+	<form action='/admins/validate_login' method='post'>
+		<?php if(!empty($this->session->flashdata('login_errors'))) 
+		echo "<div class='red'>" . $this->session->flashdata('login_errors') . "</div>" ?>
 		<div class='form-group'>
 			<label for='email'>Email: </label>
 			<input type='text' class='form-control' name='email' id='email'>

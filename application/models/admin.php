@@ -2,6 +2,13 @@
 
 class  Admin extends CI_Model {
 
+	public function validate_login($email, $password)
+	{
+		$query = "SELECT id FROM admins WHERE email = ? AND password = ?";
+		$values = array($email, $password);
+		return $this->db->query($query, $values)->row_array();
+	}
+
 	public function get_all_orders()
 	{
 		$query = ("SELECT orders.id AS id, billing_first, billing_last, orders.created_at AS created_at, billing_address, billing_city, billing_state, billing_zip, total_price, status  FROM orders JOIN billings ON orders.billing_id = billings.id");
