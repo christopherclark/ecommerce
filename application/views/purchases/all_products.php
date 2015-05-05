@@ -7,7 +7,7 @@
 	<link rel="stylesheet" type="text/css" href="/assets/css/purchases.css">
 	<title>H&H Supplies - Products</title>
     <style>
-        .raw_text {
+        .overlay_text {
             vertical-align: bottom;
             position: absolute;
             top: 55%;
@@ -82,7 +82,7 @@
                     <?php for($i=0; $i<12; $i++) { ?>
                     <div class="thumbnail col-md-2 col-sm-2 col-xs-2">
                         <img class="raw_image" src="/assets/img/used_horseshoe.png" alt="thumbnail">
-                        <p class="raw_text">$99.99</p>
+                        <p class="overlay_text">$99.99</p>
                         <div class="caption">
                             <p>Used Horseshoe</p>
                         </div>
