@@ -30,13 +30,12 @@ class  Purchases extends CI_Controller {
 	}
 	public function add_to_cart()
 	{	
-		if(empty($this->session->userdata('cart_items')))
-	 		{
+		// $this->session->sess_destroy();
+		if(empty($this->session->userdata('cart_items'))){
 	 		$cart_items = array($this->input->post('id') => $this->input->post('quantity'));
 			$this->session->set_userdata('cart_items', $cart_items);
 			}
-		else
-			{
+		else{
 				$cart_items=$this->session->userdata('cart_items');
 				$found = false;
 				foreach($cart_items as $cart_item => $quantity){
@@ -52,12 +51,8 @@ class  Purchases extends CI_Controller {
 					$this->session->set_userdata('cart_items', $cart_items);
 				}
 			}
-
-		// fadeOut "item added to cart";	
-
 		$total_quantity = 0;
-		foreach($this->session->userdata('cart_items') as $cart_item => $quantity)
-			{
+		foreach($this->session->userdata('cart_items') as $cart_item => $quantity){
 				$total_quantity += $quantity;
 			}
 		$this->session->set_userdata("total_quantity", $total_quantity);
@@ -75,7 +70,10 @@ class  Purchases extends CI_Controller {
 
 	public function view_cart()
 	{
-		$this->load->view('/purchases/checkout');
+		$data['products']= $this->Purchase->load_cart();
+		// var_dump($this->session->userdata('cart_items'));
+
+		$this->load->view('/purchases/checkout', $data);
 	}
 
 	public function validate_billing()
