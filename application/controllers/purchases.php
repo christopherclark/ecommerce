@@ -9,7 +9,8 @@ class  Purchases extends CI_Controller {
 	}
 
 	public function index()
-	{
+	{	
+		// $this->session->sess_destroy();
 		$data['products'] = $this->Purchase->get_all_products();
 		$data['categories'] = $this->Purchase->get_all_categories();
 		$this->load->view('/purchases/all_products', $data);
@@ -26,17 +27,22 @@ class  Purchases extends CI_Controller {
 	{	
 		$data['id'] = $id;
 		$data['product'] = $this->Purchase->get_product_by_id($id);
+		// echo "get_product_by_id(".$id.")<br>";
+		// var_dump($data);
+		// die();
 		$this->load->view('/purchases/view_product', $data);
 	}
+
 	public function add_to_cart()
-	{	
-		if(empty($this->session->userdata('cart_items')))
-	 		{
+	{		
+		$this->session->set_flashdata("success_message", "Item has been added to cart");
+		if(empty($this->session->userdata('cart_items'))){
 	 		$cart_items = array($this->input->post('id') => $this->input->post('quantity'));
 			$this->session->set_userdata('cart_items', $cart_items);
+			
 			}
-		else
-			{
+		else{
+				
 				$cart_items=$this->session->userdata('cart_items');
 				$found = false;
 				foreach($cart_items as $cart_item => $quantity){
@@ -52,31 +58,41 @@ class  Purchases extends CI_Controller {
 					$this->session->set_userdata('cart_items', $cart_items);
 				}
 			}
-
-		// fadeOut "item added to cart";	
-
 		$total_quantity = 0;
-		foreach($this->session->userdata('cart_items') as $cart_item => $quantity)
-			{
+		foreach($this->session->userdata('cart_items') as $cart_item => $quantity){
+				$total_quantity += $quantity;
+			}
+		$this->session->set_userdata("total_quantity", $total_quantity);
+		$id = $this->input->post('id');
+		$data['id'] = $id;
+		$data['product'] = $this->Purchase->get_product_by_id($id);
+
+		redirect('/products/show/'.$id, $data);
+	}
+
+	public function view_cart()
+	{	
+		var_dump($this->session->userdata('total_quantity'));
+		$data['products']= $this->Purchase->load_cart();
+		$this->load->view('/purchases/checkout', $data);
+	}
+
+	public function delete_item_from_cart($id)
+	{	
+		$cart = $this->session->userdata('cart_items');
+		$cart[$id] = 0;
+		$this->session->set_userdata('cart_items', $cart);
+		
+		$total_quantity = 0;
+		foreach($this->session->userdata('cart_items') as $cart_item => $quantity){
 				$total_quantity += $quantity;
 			}
 		$this->session->set_userdata("total_quantity", $total_quantity);
 
-		$this->session->set_flashdata("success_message", "Item has been added to cart");
-
-		$id = $this->input->post('id');
-		$data['id'] = $id;
-		$data['product'] = $this->Purchase->get_product_by_id($id);
-		$this->load->view('/purchases/view_product', $data);
-
-		// var_dump($this->session->all_userdata());
-		// die();
+		$data['products']= $this->Purchase->load_cart();
+		$this->load->view('/purchases/checkout', $data);
 	}
 
-	public function view_cart()
-	{
-		$this->load->view('/purchases/checkout');
-	}
 
 	public function validate_billing()
 	{

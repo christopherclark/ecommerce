@@ -22,42 +22,31 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td>Used Horseshoe</td>
-					<td>$19.99</td>
-					<td>
-						1 
-						<img class="checkout icon pull-right" src="/assets/img/trashcan.png">
-						<a href="/purchases/get_product_by_id/1" class="pull-right">update</a> 
-						</td>
-					<td>$19.99</td>
-				</tr>
-				<tr>
-					<td>Used Horseshoe 4-pack</td>
-					<td>$74.99</td>
-					<td>
-						1 
-						<img class="checkout icon pull-right" src="/assets/img/trashcan.png">
-						<a href="/purchases/get_product_by_id/2" class="pull-right">update</a> 
-						</td>
-					<td>$74.99</td>
-				</tr>
-				<tr>
-					<td>0</td>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>0</td>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
+				<?php 
+				$final_price = 0;
+				$cart_items = $this->session->userdata('cart_items');
+				if(!empty($cart_items)){
+				foreach($products as $product){ ?>
+					<tr>
+						<td><?= $product['name']; ?></td>
+						<td>$<?= $product['price']; ?></td>
+						<td><?=$cart_items[$product['id']];
+								$id=$product['id'];
+						?>
+							<a href = "/purchases/delete_item_from_cart/<?= $id ?>">
+								<img class="checkout icon pull-right" 
+								src="/assets/img/trashcan.png"></a>
+							<a href="/purchases/get_product_by_id/<?=$product['id']?>"
+								 class="pull-right">update</a></td>
+						<td>$<? $sub_total = $cart_items[$product['id']] * $product['price'];
+							$final_price += $sub_total;
+							echo $sub_total ?></td>
+					</tr> 
+				<?php } }?>
 			</tbody>
 		</table>
 		<div class="row">
-			<p class="pull-right"><strong>Total $94.98</strong></p>
+			<p class="pull-right"><strong>$<?= $final_price ?></strong></p>
 		</div>
 		<div class="row">
 			<form class="form form-horizontal" role="form" action="/purchases/index" method="post">
@@ -173,7 +162,6 @@
 					<input type="text" class="form-control" name="security_code">
 				</div>
 			</div>
-
 
 			<div class="form-group">
 				<label for="expiration_month" class="control-label col-md-2 col-sm-2 col-xs-2">Expiration:</label>

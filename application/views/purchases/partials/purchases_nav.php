@@ -1,7 +1,9 @@
 <nav class="purchases navbar navbar-default">
 	<div class="container-fluid">
 		<ul class="nav navbar-header">
-			<p class="navbar-brand">H&H Supplies</p>
+			<a href="/">
+				<p class="navbar-brand">H&H Supplies</p>
+			</a>
 		</ul>
 		<ul class="nav navbar-nav navbar-right">
 			<li><a href="/purchases/view_cart">Shopping Cart (<?php

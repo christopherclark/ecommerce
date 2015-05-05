@@ -10,9 +10,9 @@
 <body>
 	<?php include('partials/purchases_nav.php'); ?>
    	<div class="container-fluid">
-
+		<a href="/">Go Back</a>
 		<!-- PRODUCT INF0 SECTION -->
-		<h1>Used Horseshoe</h1>
+		<h1><?=$product['name']?></h1>
 		<div class="row">
 			<div class="col-md-4 col-sm-4 col-xs-4"> <!-- left third -->
 				<img src="/assets/img/used_horseshoe.png" width="100%" alt="thumbnail">
@@ -25,36 +25,42 @@
 				</div>
 			</div> <!-- closes left third -->
 			<div class="col-md-8 col-sm-8 col-xs-8"> <!-- right third -->
-				<p> <?php for ($i=0; $i<20; $i++) { ?>
-					Description about the product... 
-					<?php } ?>
-				</p>
-				<form class="form-inline col-md-offset-8 col-md-4 col-sm-offset-8 col-sm-4 col-xs-offset-8 col-xs-4" 
-						action="/purchases/add_to_cart" method="post">
-					<div class="form-group">
-						<select name="quantity">
-							<option value="1">1 ($19.99)</option>
-							<option value="2">2 ($39.98)</option>
-							<option value="3">3 ($59.97)</option>
-						</select>
-					</div>
-					<input type = "hidden" name = "id" value = "<?= $id?>">
-					<input type="submit" value="Add to Cart">
-				</form>
-				<p id = "item_added"><?php echo $this->session->flashdata("success_message") ?></p>
+				<div class="row">
+					<p> <?=$product['description'];?> 
+					</p>
+				</div>
+				<div class="row">
+					<form class="form-inline col-md-offset-6 col-md-4 col-sm-offset-6 col-sm-4 col-xs-offset-6 col-xs-4" 
+							action="/purchases/add_to_cart" method="post">
+						<div class="form-group">
+							<select name="quantity">
+								<?php for ($q=1; $q<=10; $q++) { ?>
+								<option value="<?=$q?>"><?=$q?> ($<?=($product['price']*$q)?>)</option>
+								<?php } ?>
+							</select>
+						</div>
+						<input type = "hidden" name = "id" value = "<?= $id?>">
+						<input type="submit" value="Add to Cart">
+					</form>
+				</div>
+				<div class="row">
+					<p class="success col-md-offset-6 col-md-4 col-sm-offset-6 col-sm-4 col-xs-offset-6 col-xs-4" id = "item_added"><?php echo $this->session->flashdata("success_message") ?></p>
+				</div>
 			</div> <!-- closes right third -->
 		</div>
 		<!-- SIMILAR ITEMS SECTION -->
 		<h4>Similar Items</h4>
 		<div class="row">
-			<?php for ($i=0; $i<6; $i++) { ?>
+			<?php for ($p=1; $p<7; $p++) { ?>
 			<div class="col-xs-2">
+				<a href="/products/show/<?=$p?>">
 				<div class="thumbnail">
 					<img src="/assets/img/used_horseshoe.png" alt="thumbnail">
 					<div class="caption">
-						<p>prod name</p>
+						<p>product #<?=$p?></p>
 					</div>
 				</div>
+				</a>
 			</div>
 			<?php } ?>
 		</div>

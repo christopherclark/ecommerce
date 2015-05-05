@@ -39,6 +39,30 @@ class  Purchase extends CI_Model {
 
 		return $this->db->query($query, $id)->row_array();
 	}
+	public function load_cart()
+	{
+		$cart_items = $this->session->userdata('cart_items');
+		if(empty($cart_items)){ return; }
+		$query = "SELECT products.id, products.name, products.price FROM products WHERE ";
+		$first = true;
+		foreach($cart_items as $product_id => $quantity){ 
+			if (!$first) {
+				$query .= "OR ";
+			}
+			else {
+				$first = false;
+			}
+			$query .= "(products.id = ".$product_id.") ";
+		}
+		return $this->db->query($query)->result_array();
+	}
+		
+		
+			// var_dump(result_array());
+			// die();
+
+}
+	
 
 	// public function new_order($post)
 	// {
@@ -60,5 +84,3 @@ class  Purchase extends CI_Model {
 	// 	return $this->db->query($query, array());
 
 	// }
-
-}
