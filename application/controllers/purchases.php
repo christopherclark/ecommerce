@@ -27,6 +27,9 @@ class  Purchases extends CI_Controller {
 	{	
 		$data['id'] = $id;
 		$data['product'] = $this->Purchase->get_product_by_id($id);
+		// echo "get_product_by_id(".$id.")<br>";
+		// var_dump($data);
+		// die();
 		$this->load->view('/purchases/view_product', $data);
 	}
 
@@ -63,7 +66,8 @@ class  Purchases extends CI_Controller {
 		$id = $this->input->post('id');
 		$data['id'] = $id;
 		$data['product'] = $this->Purchase->get_product_by_id($id);
-		$this->load->view('/purchases/view_product', $data);
+
+		redirect('/products/show/'.$id, $data);
 	}
 
 	public function view_cart()
