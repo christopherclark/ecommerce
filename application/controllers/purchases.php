@@ -15,7 +15,7 @@ class  Purchases extends CI_Controller {
 		$this->load->view('/purchases/all_products', $data);
 	}
 
-	public function get_products_by_category()
+	public function get_products_by_category($category)
 	{
 		$data['page_no'] = $this->Purchase->count($this->input->post());
 		$data['products'] = $this->Purchase->get_products_by_category($this->input->post());
