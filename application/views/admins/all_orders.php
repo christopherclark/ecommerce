@@ -46,12 +46,13 @@
 			<tbody>
 				<?php foreach ($orders as $order) { ?>
 				<tr>
-					<td><?= $order['id']?></td>
+					<td><a href="/admins/get_order_by_id/<?=$order['id']?>"><?= $order['id']?></a></td>
 					<td><?php echo $order['billing_first'] . " " . $order['billing_last']?></td>
 					<td><?php echo $order['created_at']?></td>
 					<td><?php echo $order['billing_address'] . " " . $order['billing_city'] . ", " . $order['billing_state'] . " " . $order['billing_zip']?></td>
 					<td><?= $order['total_price']?></td>
 					<td>
+
 						<form action='' method='post'>
 							<select name='status'>
 								<option value='<?=$order["status"]?>'><?=$order['status']?></option>

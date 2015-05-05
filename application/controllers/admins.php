@@ -32,30 +32,32 @@ class  Admins extends CI_Controller {
 	public function get_all_products()
 	{
 		$data['products'] = $this->Admin->get_all_products();
-		$this->load->view('/admins/inventory');
+		$this->load->view('/admins/inventory', $data);
 	}
 
-	public function get_order_by_id()
+	public function get_order_by_id($id)
 	{
 		$data['order'] = $this->Admin->get_order_by_id($id);
-		$this->load->view('/admins/view_order');
+		$data['products'] = $this->Admin->get_order_products($id);
+		$this->load->view('/admins/view_order', $data);
 	}
 
-	public function get_product_by_id()
+	public function get_product_by_id($id)
 	{
-		$id=$this->input->post('id');
 		$data['product'] = $this->Admin->get_product_by_id($id);
-		$this->load->view('/admins/edit_product');
+		$data['categories'] = $this->Admin->get_categories();
+		$this->load->view('/admins/edit_product', $data);
 	}
 
 	public function edit_product()
 	{
 		$this->Admin->edit_product($this->input->post());
+		$this->load->view('/admins/inventory');
 	}
 
 	public function delete_product()
 	{
-		$this->Admin->delete_product($id);
+		$this->Admin->delete_product($this->input->post());
 	}
 
 	public function add_product()
