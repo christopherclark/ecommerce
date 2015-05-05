@@ -11,15 +11,44 @@ class  Purchases extends CI_Controller {
 	public function index()
 	{	
 		// $this->session->sess_destroy();
+
+		// 1. GET CATEGORY COUNTS
+		$data['category_counts'] = $this->Purchase->get_category_counts();
+
+		// 2. GET THE SELECTED RECORDS
+		$data['category_id'] = 0;
+		$data['page_no'] = 1;
 		$data['products'] = $this->Purchase->get_all_products();
-		$data['categories'] = $this->Purchase->get_all_categories();
+
+		// 3. LOAD THE VIEW
 		$this->load->view('/purchases/all_products', $data);
 	}
 
-	public function get_products_by_category($category)
+	public function view_all_products_by_page()
 	{
-		$data['page_no'] = $this->Purchase->count($this->input->post());
-		$data['products'] = $this->Purchase->get_products_by_category($this->input->post());
+		// 1. GET CATEGORY COUNTS
+		$data['category_counts'] = $this->Purchase->get_category_counts();
+
+		// 2. GET THE SELECTED RECORDS
+		$data['category_id'] = 0;
+		$data['page_no'] = $this->input->post('page_no');
+		$data['products'] = $this->Purchase->get_all_products();
+
+		// 3. LOAD THE VIEW
+		$this->load->view('/purchases/all_products', $data);
+	}
+
+	public function view_product_category_by_page()
+	{
+		// 1. GET CATEGORY COUNTS
+		$data['category_counts'] = $this->Purchase->get_category_counts();
+
+		// 2. GET THE SELECTED RECORDS
+		$data['category_id'] = $this->input->post('category_id');
+		$data['page_no'] = $this->input->post('page_no');
+		$data['products'] = $this->Purchase->get_products_by_category($this->input->post('category_id'));
+
+		// 3. LOAD THE VIEW		
 		$this->load->view('/purchases/all_products', $data);
 	}
 

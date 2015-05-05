@@ -41,7 +41,7 @@
 
     <div class="container-fluid">
         <div class="row">
-
+<!-- <?php var_dump($products) ?> -->
             <div class="sidebar col-md-3 col-sm-3 col-xs-3">
                 <!-- SEARCH BAR -->
                 <div class="row">
@@ -58,8 +58,21 @@
                 <div class="row">
                     <h4>Categories</h4>
                     <ul class="nav nav-pills nav-stacked">
-                        <li role="presentation"><a href="#">Horseshoes (2)</a></li>
-                        <li role="presentation"><a href="#">Hand Grenades (1)</a></li>
+                        <?php foreach ($category_counts as $category) { ?>
+                        <li role="presentation">
+                            <form action="/purchases/view_product_category_by_page" method="post">
+                                <input type="hidden" name="page_no" value="1">
+                                <input type="hidden" name="category_id" value="<?=$category['category_id']?>">
+                                <input type="submit" value="<?=$category['category_name']?> (<?=$category['category_count']?>)">
+                            </form>
+                        </li>
+                        <?php } ?>
+                        <li role="presentation">
+                            <form action="/purchases/view_all_products_by_page" method="post">
+                                <input type="hidden" name="page_no" value="1">
+                                <input type="submit" value="Show All">
+                            </form>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -68,7 +81,7 @@
                 <!-- THUMBNAILS -->
                 <div class="row">
                     <div class="col-md-8">
-                        <h2>Horseshoes (page 1)</h2>
+                        <h2>CATEGORY (page <?=$page_no?>)</h2>
                     </div>
                     <div class="sortby col-md-4 pull-right">
                         <label for="sortby">Sorted by</label>
@@ -79,12 +92,13 @@
                     </div>
                 </div>
                 <div class="row">
-                    <?php for($i=0; $i<12; $i++) { ?>
+                    <?php
+                        foreach ($products as $product) { ?>
                     <div class="thumbnail col-md-2 col-sm-2 col-xs-2">
                         <img class="raw_image" src="/assets/img/used_horseshoe.png" alt="thumbnail">
-                        <p class="overlay_text">$99.99</p>
+                        <p class="overlay_text">$<?=$product['price']?></p>
                         <div class="caption">
-                            <p>Used Horseshoe</p>
+                            <p><?=$product['name']?></p>
                         </div>
                     </div>
                     <?php } ?>
