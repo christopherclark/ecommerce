@@ -41,10 +41,8 @@ class  Purchase extends CI_Model {
 	}
 	public function load_cart()
 	{
-		// $query = "SELECT * FROM products";
-		// return $this->db->query($query)->result_array();
 		$cart_items = $this->session->userdata('cart_items');
-
+		if(empty($cart_items)){ return; }
 		$query = "SELECT products.id, products.name, products.price FROM products WHERE ";
 		$first = true;
 		foreach($cart_items as $product_id => $quantity){ 
@@ -56,14 +54,8 @@ class  Purchase extends CI_Model {
 			}
 			$query .= "(products.id = ".$product_id.") ";
 		}
-// var_dump($query);
-// 		die();
 		return $this->db->query($query)->result_array();
-		
-
 	}
-
-
 		
 		
 			// var_dump(result_array());

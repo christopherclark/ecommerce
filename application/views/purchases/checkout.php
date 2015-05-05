@@ -22,22 +22,27 @@
 				</tr>
 			</thead>
 			<tbody>
-					<?php 
-					$final_price = 0;
-					$cart_items = $this->session->userdata('cart_items');
-
-					foreach($products as $product){ ?>
-				<tr> <php $id = $product['id']; ?>
-				<td><?= $product['name']; ?></td>
-				<td>$<?= $product['price']; ?></td>
-				<td><?=$cart_items[$product['id']]; ?>
-					<img class="checkout icon pull-right" src="/assets/img/trashcan.png">
-					<a href="/purchases/get_product_by_id/<?=$product['id']?>" class="pull-right">update</a></td>
-				<td>$<? $sub_total = $cart_items[$product['id']] * $product['price'];
-					$final_price += $sub_total;
-					echo $sub_total ?></td>
-				</tr> 
-					<?php } ?>
+				<?php 
+				$final_price = 0;
+				$cart_items = $this->session->userdata('cart_items');
+				if(!empty($cart_items)){
+				foreach($products as $product){ ?>
+					<tr>
+						<td><?= $product['name']; ?></td>
+						<td>$<?= $product['price']; ?></td>
+						<td><?=$cart_items[$product['id']];
+								$id=$product['id'];
+						?>
+							<a href = "/purchases/delete_item_from_cart/<?= $id ?>">
+								<img class="checkout icon pull-right" 
+								src="/assets/img/trashcan.png"></a>
+							<a href="/purchases/get_product_by_id/<?=$product['id']?>"
+								 class="pull-right">update</a></td>
+						<td>$<? $sub_total = $cart_items[$product['id']] * $product['price'];
+							$final_price += $sub_total;
+							echo $sub_total ?></td>
+					</tr> 
+				<?php } }?>
 			</tbody>
 		</table>
 		<div class="row">
