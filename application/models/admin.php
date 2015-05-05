@@ -10,8 +10,26 @@ class  Admin extends CI_Model {
 
 	public function get_order_by_id($id)
 	{
-		$query = "SELECT * FROM orders WHERE id =?";
+		$query = "SELECT *, orders.id AS order_id FROM orders JOIN billings on orders.billing_id = billings.id WHERE orders.id =?";
 		return $this->db->query($query, $id)->row_array();
+	}
+
+	public function get_order_products($id)
+	{
+		$query = "SELECT * FROM orders JOIN order_products ON orders.id = order_products.order_id JOIN products ON order_products.product_id = products.id WHERE orders.id = ?";
+		return $this->db->query($query, $id)->result_array();
+	}
+
+	public function get_product_by_id($id)
+	{
+		$query = "SELECT * FROM products WHERE id = ?";
+		return $this->db->query($query, $id)->row_array();
+	}
+
+	public function get_categories()
+	{
+		$query = "SELECT * FROM categories";
+		return $this->db->query($query)->result_array();
 	}
 
 	public function update_order_status($post)
