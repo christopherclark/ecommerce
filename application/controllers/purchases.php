@@ -30,9 +30,7 @@ class  Purchases extends CI_Controller {
 		$data['category_name'] = "All Products";
 		$data['page_no'] = 1;
 		$data['products'] = $this->Purchase->get_all_products($data['sort_by']);
-// echo "INDEX:<br>";
-// var_dump($data);
-// die();
+
 		// 3. LOAD THE VIEW
 		$this->load->view('/purchases/all_products', $data);
 	}
@@ -221,6 +219,7 @@ class  Purchases extends CI_Controller {
 		$this->session->set_userdata("total_quantity", 0);
 		$this->load->view('/purchases/thank_you');
 	}
+
 	public function sort_by()
 	{
 		// 0. GET CATEGORY COUNTS
@@ -243,8 +242,5 @@ class  Purchases extends CI_Controller {
 		// 3. LOAD THE VIEW
 		$this->load->view('/purchases/all_products', $data);
 	}
-
-}
-
 
 }
