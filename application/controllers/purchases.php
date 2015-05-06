@@ -180,7 +180,6 @@ class  Purchases extends CI_Controller {
 
 		// 2. GET THE SELECTED RECORDS
 		$data['category_id'] = $this->input->post('category_id');
-		$data['category_name'] = $this->get_category_name($data['category_id']);
 		$data['page_no'] = $this->input->post('page_no');
 		if ($data['category_id'] == 0) {
 			$data['category_name'] = "All Products";
