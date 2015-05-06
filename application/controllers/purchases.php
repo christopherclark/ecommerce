@@ -143,7 +143,6 @@ class  Purchases extends CI_Controller {
 
 	public function view_cart()
 	{	
-		var_dump($this->session->userdata('total_quantity'));
 		$data['products']= $this->Purchase->load_cart();
 		$this->load->view('/purchases/checkout', $data);
 	}
@@ -164,10 +163,19 @@ class  Purchases extends CI_Controller {
 		$this->load->view('/purchases/checkout', $data);
 	}
 
-
 	public function validate_billing()
 	{
 
+		var_dump($this->input->post());
+		die();
+
+
+
+
+		// $this->session->sess_destroy();
+		// $data['products'] = $this->Purchase->get_all_products();
+		// $data['categories'] = $this->Purchase->get_all_categories();
+		// $this->load->view('/purchases/all_products', $data);
 	}
 
 	public function sort_by()
