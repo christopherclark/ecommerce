@@ -56,31 +56,61 @@ class  Purchase extends CI_Model {
 		}
 		return $this->db->query($query)->result_array();
 	}
-		
-		
-			// var_dump(result_array());
-			// die();
 
+	public function new_billings($post)
+	{
+		$query = "INSERT INTO billings (shipping_first, shipping_last,
+		 	shipping_address, shipping_city, shipping_state, shipping_zip,
+		 	billing_first, billing_last, billing_address, billing_city, billing_state, billing_zip, card,
+		 	security, expiration_month, expiration_year, created_at, updated_at)
+			VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?, NOW(), NOW())";
+		$this->db->query($query, $this->input->post());
+		return $this->db->insert_id();
+	}
+
+	public function new_orders($id, $price)
+	{
+		$query = "INSERT INTO orders (billing_id, total_price, status, created_at, updated_at)
+		 		VALUES (?, ?, 'Order in process', NOW(), NOW())";
+
+		$this->db->query($query, array($id, $price));
+		return $this->db->insert_id();
+	}
+
+	public function new_order_products($id)
+	{	
+		$cart_items = $this->session->userdata('cart_items');
+		if(empty($cart_items)){ return;}
+		$query = "INSERT INTO order_products (product_id, quantity, order_id) VALUES (?,?,?)";
+		$first = true;
+		foreach($cart_items as $product_id => $quantity){ 
+			if($quantity == 0){ continue;}
+			if (!$first) {
+			}
+			else {
+				$first = false;
+			}
+			$this->db->query($query, array($product_id, $quantity, $id));
+		}
+	redirect('/purchases/products');
+	}
+
+	public function new_products()
+	{	
+		$cart_items = $this->session->userdata('cart_items');
+		foreach($cart_items as $product_id => $quantity){ 
+		$query = "UPDATE products SET in_stock = in_stock - ?, quantity_sold = quantity_sold + ?, updated_at = NOW() WHERE ";		
+		$first = true;
+		
+			if (!$first) {
+				$query .= "OR ";
+			}
+			else {
+				$first = false;
+			}
+			$query .= "(products.id = ".$product_id.") ";
+		$this->db->query($query, array($quantity, $quantity));
+		}
+		redirect('/purchases/order_complete');
+	}	
 }
-	
-
-	// public function new_order($post)
-	// {
-	// 	$query = "INSERT INTO billings (shipping_first, shipping_last,
-	// 	 	shipping_address, shipping_city, shipping_state, shipping_zip,
-	// 	 	billing_first, billing_last, billing_city, billing_zip, card,
-	// 	 	security, expiration, created_at, updated_at)
-	// 		VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?, NOW(), NOW())";
-	// 	return $this->db->query($query, $post)-> /*get billings.id */ ;
-
-	// 	$query = "INSERT INTO orders (billing_id, total_price, status, created_at, updated_at)
-	// 	 		VALUES (?, ?, ?, NOW(), NOW())";
-	// 	return $this->db->query($query, array();
-
-	// 	$query = "INSERT INTO product_orders (order_id, product_id) VALUES (?,?)";
-	// 	return $this->db->query($query, array());
-
-	// 	$query = "UPDATE products SET in_stock = ?, quantity_sold = ?, updated_at = NOW() WHERE id = ?";
-	// 	return $this->db->query($query, array());
-
-	// }
