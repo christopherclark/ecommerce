@@ -47,7 +47,7 @@
 			</tbody>
 		</table>
 		<div class="row">
-			<p class="pull-right"><strong>$<?= $final_price ?></strong></p>
+			<p class="pull-right"><strong>$<?= $final_price; $this->session->set_userdata('price', $final_price); ?></strong></p>
 		</div>
 		<div class="row">
 			<form class="form form-horizontal" role="form" action="/purchases/index" method="post">
@@ -58,51 +58,51 @@
 			<h2>Shipping Information</h2>
 			<div class="form-group">
 				<label for="first_name" class="control-label col-md-2 col-sm-2 col-xs-2">First Name:</label>
-				<div class="col-md-4 col-sm-6 col-xs-8">
-					<input type="text" class="form-control" name="first_name">
+				<div class="col-md-3 col-sm-5 col-xs-7">
+					<?php echo form_error('ship_first_name'); ?>
+					<input type="text" class="form-control" name="ship_first_name"> 
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="last_name" class="control-label col-md-2 col-sm-2 col-xs-2">Last Name:</label>
-				<div class="col-md-4 col-sm-6 col-xs-8">
-					<input type="text" class="form-control" name="last_name">
+				<div class="col-md-3 col-sm-5 col-xs-7">
+					<?php echo form_error('ship_last_name'); ?>
+					<input type="text" class="form-control" name="ship_last_name">
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="address" class="control-label col-md-2 col-sm-2 col-xs-2">Address:</label>
-				<div class="col-md-4 col-sm-6 col-xs-8">
-					<input type="text" class="form-control" name="address">
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="address2" class="control-label col-md-2 col-sm-2 col-xs-2">Address 2:</label>
-				<div class="col-md-4 col-sm-6 col-xs-8">
-					<input type="text" class="form-control" name="address2">
+				<div class="col-md-3 col-sm-5 col-xs-7">
+					<?php echo form_error('ship_address'); ?>
+					<input type="text" class="form-control" name="ship_address">
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="city" class="control-label col-md-2 col-sm-2 col-xs-2">City:</label>
-				<div class="col-md-4 col-sm-6 col-xs-8">
-					<input type="text" class="form-control" name="city">
+				<div class="col-md-3 col-sm-5 col-xs-7">
+					<?php echo form_error('ship_city'); ?>
+					<input type="text" class="form-control" name="ship_city">
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="state" class="control-label col-md-2 col-sm-2 col-xs-2">State:</label>
-				<div class="col-md-4 col-sm-6 col-xs-8">
-					<input type="text" class="form-control" name="state">
+				<div class="col-md-3 col-sm-5 col-xs-7">
+					<?php echo form_error('ship_state'); ?>
+					<input type="text" class="form-control" name="ship_state">
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="zipcode" class="control-label col-md-2 col-sm-2 col-xs-2">Zipcode:</label>
-				<div class="col-md-4 col-sm-6 col-xs-8">
-					<input type="text" class="form-control" name="zipcode">
+				<div class="col-md-3 col-sm-5 col-xs-7">
+					<?php echo form_error('ship_zipcode'); ?>
+					<input type="text" class="form-control" name="ship_zipcode">
 				</div>
 			</div>
 
 			<h2>Billing Information</h2>
 
 			<div class="form-group">
-				<div class="col-md-4 col-sm-6 col-xs-8">
+				<div class="col-md-3 col-sm-5 col-xs-7">
 					<div class="checkbox">
 						<label><input type="checkbox">Same as Shipping</label>
 					</div>
@@ -110,56 +110,58 @@
 			</div>
 			<div class="form-group">
 				<label for="first_name" class="control-label col-md-2 col-sm-2 col-xs-2">First Name:</label>
-				<div class="col-md-4 col-sm-6 col-xs-8">
+				<div class="col-md-3 col-sm-5 col-xs-7">
+					<?php echo form_error('first_name'); ?>
 					<input type="text" class="form-control" name="first_name">
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="last_name" class="control-label col-md-2 col-sm-2 col-xs-2">Last Name:</label>
-				<div class="col-md-4 col-sm-6 col-xs-8">
+				<div class="col-md-3 col-sm-5 col-xs-7">
+					<?php echo form_error('last_name'); ?>
 					<input type="text" class="form-control" name="last_name">
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="address" class="control-label col-md-2 col-sm-2 col-xs-2">Address:</label>
-				<div class="col-md-4 col-sm-6 col-xs-8">
+				<div class="col-md-3 col-sm-5 col-xs-7">
+					<?php echo form_error('address'); ?>
 					<input type="text" class="form-control" name="address">
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="address2" class="control-label col-md-2 col-sm-2 col-xs-2">Address 2:</label>
-				<div class="col-md-4 col-sm-6 col-xs-8">
-					<input type="text" class="form-control" name="address2">
-				</div>
-			</div>
-			<div class="form-group">
 				<label for="city" class="control-label col-md-2 col-sm-2 col-xs-2">City:</label>
-				<div class="col-md-4 col-sm-6 col-xs-8">
+				<div class="col-md-3 col-sm-5 col-xs-7">
+					<?php echo form_error('last_name'); ?>
 					<input type="text" class="form-control" name="city">
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="state" class="control-label col-md-2 col-sm-2 col-xs-2">State:</label>
-				<div class="col-md-4 col-sm-6 col-xs-8">
+				<div class="col-md-3 col-sm-5 col-xs-7">
+					<?php echo form_error('state'); ?>
 					<input type="text" class="form-control" name="state">
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="zipcode" class="control-label col-md-2 col-sm-2 col-xs-2">Zipcode:</label>
-				<div class="col-md-4 col-sm-6 col-xs-8">
+				<div class="col-md-3 col-sm-5 col-xs-7">
+					<?php echo form_error('zipcode'); ?>
 					<input type="text" class="form-control" name="zipcode">
 				</div>
 			</div>
 
 			<div class="form-group">
 				<label for="card" class="control-label col-md-2 col-sm-2 col-xs-2">Card:</label>
-				<div class="col-md-4 col-sm-6 col-xs-8">
+				<div class="col-md-3 col-sm-5 col-xs-7">
+					<?php echo form_error('card'); ?>
 					<input type="text" class="form-control" name="card">
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="security_code" class="control-label col-md-2 col-sm-2 col-xs-2">Security Code:</label>
-				<div class="col-md-4 col-sm-6 col-xs-8">
+				<div class="col-md-3 col-sm-5 col-xs-7">
+					<?php echo form_error('security_code'); ?>
 					<input type="text" class="form-control" name="security_code">
 				</div>
 			</div>
@@ -167,9 +169,11 @@
 			<div class="form-group">
 				<label for="expiration_month" class="control-label col-md-2 col-sm-2 col-xs-2">Expiration:</label>
 				<div class="col-md-2 col-sm-2 col-xs-2">
+					<?php echo form_error('expiration_month'); ?>
 					<input type="text" class="form-control" name="expiration_month" placeholder="(mm)">
 				</div>
 				<div class="col-md-2 col-sm-2 col-xs-2">
+					<?php echo form_error('expiration_year'); ?>
 					<input type="text" class="form-control" name="expiration_year" placeholder="(yyyy)">
 				</div>
 			</div>
