@@ -26,7 +26,8 @@
 				$final_price = 0;
 				$cart_items = $this->session->userdata('cart_items');
 				if(!empty($cart_items)){
-				foreach($products as $product){ ?>
+				foreach($products as $product){ 
+					if($cart_items[$product['id']] !== 0) {	?>
 					<tr>
 						<td><?= $product['name']; ?></td>
 						<td>$<?= $product['price']; ?></td>
@@ -42,7 +43,7 @@
 							$final_price += $sub_total;
 							echo $sub_total ?></td>
 					</tr> 
-				<?php } }?>
+				<?php } } }?>
 			</tbody>
 		</table>
 		<div class="row">
@@ -53,7 +54,7 @@
 				<input type="submit" class="btn btn-success pull-right" value="Continue Shopping">
 			</form>
 		</div>
-		<form class="form form-horizontal" role="form">
+		<form class="form form-horizontal" action="/purchases/validate_billing" role="form" method="post">
 			<h2>Shipping Information</h2>
 			<div class="form-group">
 				<label for="first_name" class="control-label col-md-2 col-sm-2 col-xs-2">First Name:</label>
@@ -175,6 +176,5 @@
 			<input type="submit" class="btn btn-primary col-md-offset-8 col-sm-offset-8 col-xs-offset-8" value="Pay">
 		</form>
 	</div>
-
 </body>
 </html>
