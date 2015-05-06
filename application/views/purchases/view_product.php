@@ -11,7 +11,7 @@
 	<?php include('partials/purchases_nav.php'); ?>
    	<div class="container-fluid">
 		<a href="/">Go Back</a>
-		<!-- PRODUCT INF0 SECTION -->
+		<!-- PRODUCT INFO SECTION -->
 		<h1><?=$product['name']?></h1>
 		<div class="row">
 			<div class="col-md-4 col-sm-4 col-xs-4"> <!-- left third -->

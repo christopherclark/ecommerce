@@ -8,17 +8,70 @@ class  Purchases extends CI_Controller {
 		$this->load->model('Purchase');
 	}
 
+	public function get_category_name($category_id) 
+	{
+		$data = $this->Purchase->get_category_name($category_id);
+		return $data['name'];
+	}
+
 	public function index()
 	{	
-		$data['products'] = $this->Purchase->get_all_products();
-		$data['categories'] = $this->Purchase->get_all_categories();
+
+		// $this->session->sess_destroy();
+
+		// 0. GET CATEGORY COUNTS
+		$data['category_counts'] = $this->Purchase->get_category_counts();
+
+		// 1. SET THE DEFAULT SORT MODE
+		$data['sort_by'] = "Price";
+
+		// 2. GET THE SELECTED RECORDS
+		$data['category_id'] = 0;
+		$data['category_name'] = "All Products";
+		$data['page_no'] = 1;
+		$data['products'] = $this->Purchase->get_all_products($data['sort_by']);
+// echo "INDEX:<br>";
+// var_dump($data);
+// die();
+		// 3. LOAD THE VIEW
 		$this->load->view('/purchases/all_products', $data);
 	}
 
-	public function get_products_by_category($category)
+	public function view_all_products_by_page()
 	{
-		$data['page_no'] = $this->Purchase->count($this->input->post());
-		$data['products'] = $this->Purchase->get_products_by_category($this->input->post());
+		// 0. GET CATEGORY COUNTS
+		$data['category_counts'] = $this->Purchase->get_category_counts();
+
+		// 1. GET THE SORT MODE
+		$data['sort_by'] = $this->input->post('sort_by');
+
+		// 2. GET THE SELECTED RECORDS
+		$data['category_id'] = 0;
+		$data['category_name'] = "All Products";
+		$data['page_no'] = $this->input->post('page_no');
+		$data['products'] = $this->Purchase->get_all_products($data['sort_by']);
+
+		// 3. LOAD THE VIEW
+		$this->load->view('/purchases/all_products', $data);
+	}
+
+	public function view_product_category_by_page()
+	{
+		// 0. GET CATEGORY COUNTS
+		$data['category_counts'] = $this->Purchase->get_category_counts();
+
+		// 1. GET THE SORT MODE
+		$data['sort_by'] = $this->input->post('sort_by');
+
+		// 2. GET THE SELECTED RECORDS
+		$data['category_id'] = $this->input->post('category_id');
+		$data['category_name'] = $this->get_category_name($data['category_id']);
+		$data['page_no'] = $this->input->post('page_no');
+		$data['products'] = $this->Purchase->get_products_by_category($this->input->post('category_id'),$data['sort_by']);
+// echo "CATEGORY FILTER<br>";
+// var_dump($data);
+// die();
+		// 3. LOAD THE VIEW		
 		$this->load->view('/purchases/all_products', $data);
 	}
 
@@ -27,6 +80,29 @@ class  Purchases extends CI_Controller {
 		$data['id'] = $id;
 		$data['product'] = $this->Purchase->get_product_by_id($id);
 		$this->load->view('/purchases/view_product', $data);
+	}
+
+	public function get_products_by_name()
+	{	
+		// 0. GET CATEGORY COUNTS
+		$data['category_counts'] = $this->Purchase->get_category_counts();
+
+		// 1. GET THE SORT MODE
+		$data['sort_by'] = $this->input->post('sort_by');
+
+		// 2. GET THE SELECTED RECORDS
+		$data['category_id'] = $this->input->post('category_id');
+		if ($data['category_id'] == 0) {
+			$data['category_name'] = "All Products";
+		}
+		else {
+			$data['category_name'] = $this->get_category_name($data['category_id']);
+		}
+		$data['page_no'] = $this->input->post('page_no');
+		$data['products'] = $this->Purchase->get_products_by_name($this->input->post('search_val'));
+
+		// 3. LOAD THE VIEW		
+		$this->load->view('/purchases/all_products', $data);
 	}
 
 	public function add_to_cart()
@@ -145,5 +221,30 @@ class  Purchases extends CI_Controller {
 		$this->session->set_userdata("total_quantity", 0);
 		$this->load->view('/purchases/thank_you');
 	}
+	public function sort_by()
+	{
+		// 0. GET CATEGORY COUNTS
+		$data['category_counts'] = $this->Purchase->get_category_counts();
+
+		// 1. GET THE SORT MODE
+		$data['sort_by'] = $this->input->post('sort_by');
+
+		// 2. GET THE SELECTED RECORDS
+		$data['category_id'] = $this->input->post('category_id');
+		$data['page_no'] = $this->input->post('page_no');
+		if ($data['category_id'] == 0) {
+			$data['category_name'] = "All Products";
+			$data['products'] = $this->Purchase->get_all_products($data['sort_by']);
+		} else {
+			$data['category_name'] = $this->get_category_name($data['category_id']);
+			$data['products'] = $this->Purchase->get_products_by_category($data['category_id'],$data['sort_by']);
+		}
+
+		// 3. LOAD THE VIEW
+		$this->load->view('/purchases/all_products', $data);
+	}
+
+}
+
 
 }

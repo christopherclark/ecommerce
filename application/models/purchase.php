@@ -2,43 +2,88 @@
 
 class  Purchase extends CI_Model {
 
-	public function get_all_products()
+	public function get_all_products($sort_by)
 	{
+		if($sort_by == "Price") {
+			$sort_by_str = " ORDER BY products.price ASC";
+		}
+		else if ($sort_by == "Most Popular") {
+			$sort_by_str = " ORDER BY products.quantity_sold DESC";
+		}
+		else {
+			$sort_by_str = "";
+		}
 
-
-		$query = "SELECT * FROM products";
+		$query = "SELECT * FROM products".$sort_by_str;
 		
 		return $this->db->query($query)->result_array();
 	}
+
 	public function count($post)
 	{
 
 	}
 
-	public function get_products_by_category($post)
+	public function get_category_name($category_id)
+	{
+		if ($category_id == 0) {
+			return "All Products";
+		}
+		else {
+			$query = "SELECT categories.name FROM categories WHERE categories.id = ?";
+			return $this->db->query($query, array($category_id))->row_array();	
+		}
+	}
+
+	public function get_products_by_category($category_id, $sort_by)
 	{	
-		$query= "SELECT products.name, products.price FROM products
+		if($sort_by == "Price") {
+			$sort_by_str = " ORDER BY products.price ASC";
+		}
+		else if ($sort_by == "Most Popular") {
+			$sort_by_str = " ORDER BY products.quantity_sold DESC";
+		}
+		else {
+			$sort_by_str = "";
+		}
+		$query= "SELECT products.name, products.price, products.quantity_sold FROM products
 			LEFT JOIN product_categories ON products.id = product_categories.product_id
 			 LEFT JOIN categories ON product_categories.category_id = categories.id
-			 WHERE categories.id = ?";
-		return $this->db->query($query, $post)->result_array();
+			 WHERE categories.id = ?".$sort_by_str;
+
+		return $this->db->query($query, array($category_id))->result_array();
 	}
 
 	public function get_all_categories()
 	{
-
 		$query = "SELECT * FROM categories";
+
+		return $this->db->query($query)->result_array();
+	}
+
+	public function get_category_counts()
+	{
+		$query= "SELECT categories.id as category_id, categories.name as category_name, COUNT(category_id) as category_count FROM products
+			LEFT JOIN product_categories ON products.id = product_categories.product_id
+			 LEFT JOIN categories ON product_categories.category_id = categories.id
+             GROUP BY category_id";
 
 		return $this->db->query($query)->result_array();
 	}
 
 	public function get_product_by_id($id)
 	{
-
 		$query = "SELECT * FROM products WHERE id  = ?";
 
 		return $this->db->query($query, $id)->row_array();
 	}
+
+	public function get_products_by_name($name)
+	{
+		$query = "SELECT * FROM products WHERE products.name LIKE '%".$name."%'";
+		return $this->db->query($query)->result_array();
+	}
+
 	public function load_cart()
 	{
 		$cart_items = $this->session->userdata('cart_items');

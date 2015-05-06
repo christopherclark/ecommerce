@@ -31,35 +31,65 @@
         .sidebar {
             padding-bottom: 30px;
         }
-        .sortby, .sidebar input, .sidebar button {
+        .sort_by, .sidebar input, .sidebar button {
             margin-top: 15px;
         }
     </style>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(document).on('change', '.sort_by', 
+                function() {
+                    $(this).submit();
+                }
+            );
+        });
+
+    </script>
 </head>
 <body>
 	<?php include('partials/purchases_nav.php'); ?>
 
     <div class="container-fluid">
         <div class="row">
-
             <div class="sidebar col-md-3 col-sm-3 col-xs-3">
                 <!-- SEARCH BAR -->
                 <div class="row">
                     <div class="col-lg-12">
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="product name">
-                            <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">Go!</button>
-                            </span>
-                        </div>
+                        <form action="/purchases/get_products_by_name" method="post">
+                            <div class="input-group">
+                                <input type="hidden" name="sort_by" value="<?=$sort_by?>">
+                                <input type="hidden" name="page_no" value="1">
+                                <input type="hidden" name="category_id" value="0">
+                                <input type="text" class="form-control" name="search_val" placeholder="product name">
+                                <span class="input-group-btn">
+                                <input type="submit" class="btn btn-default" value="Go!">
+                                </span>
+                            </div>
+                        </form>
                     </div>
                 </div>
                 <!-- CATEGORIES -->
                 <div class="row">
                     <h4>Categories</h4>
                     <ul class="nav nav-pills nav-stacked">
-                        <li role="presentation"><a href="#">Horseshoes (2)</a></li>
-                        <li role="presentation"><a href="#">Hand Grenades (1)</a></li>
+                        <?php foreach ($category_counts as $category) { ?>
+                        <li role="presentation">
+                            <form action="/purchases/view_product_category_by_page" method="post">
+                                <input type="hidden" name="sort_by" value="<?=$sort_by?>">
+                                <input type="hidden" name="page_no" value="1">
+                                <input type="hidden" name="category_id" value="<?=$category['category_id']?>">
+                                <input type="submit" value="<?=$category['category_name']?> (<?=$category['category_count']?>)">
+                            </form>
+                        </li>
+                        <?php } ?>
+                        <li role="presentation">
+                            <form action="/purchases/view_all_products_by_page" method="post">
+                                <input type="hidden" name="sort_by" value="<?=$sort_by?>">
+                                <input type="hidden" name="page_no" value="1">
+                                <input type="hidden" name="category_id" value="0">
+                                <input type="submit" value="Show All">
+                            </form>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -68,23 +98,28 @@
                 <!-- THUMBNAILS -->
                 <div class="row">
                     <div class="col-md-8">
-                        <h2>Horseshoes (page 1)</h2>
+                        <h2><?=$category_name?> (page <?=$page_no?>)</h2>
                     </div>
-                    <div class="sortby col-md-4 pull-right">
-                        <label for="sortby">Sorted by</label>
-                        <select name="sortby">
-                            <option value="price">Price</option>
-                            <option value="most_popular">Most Popular</option>
-                        </select>
+                    <div class="col-md-4 pull-right">
+                        <form class="sort_by" action="/purchases/sort_by" method="post">
+                            <input type="hidden" name="page_no" value="1">
+                            <input type="hidden" name="category_id" value="<?=$category_id?>">
+                            <label for="sort_by">Sorted by</label>
+                            <select name="sort_by">
+                                <option value="Price"<?php if($sort_by=='Price'){ echo ' selected'; } ?>>Price</option>
+                                <option value="Most Popular"<?php if($sort_by=='Most Popular'){ echo ' selected'; } ?>>Most Popular</option>
+                            </select>
+                        </form>
                     </div>
                 </div>
                 <div class="row">
-                    <?php for($i=0; $i<12; $i++) { ?>
+                    <?php
+                        foreach ($products as $product) { ?>
                     <div class="thumbnail col-md-2 col-sm-2 col-xs-2">
                         <img class="raw_image" src="/assets/img/used_horseshoe.png" alt="thumbnail">
-                        <p class="overlay_text">$99.99</p>
+                        <p class="overlay_text">$<?=$product['price']?></p>
                         <div class="caption">
-                            <p>Used Horseshoe</p>
+                            <p>(<?=$product['quantity_sold']?>) <?=$product['name']?></p>
                         </div>
                     </div>
                     <?php } ?>
