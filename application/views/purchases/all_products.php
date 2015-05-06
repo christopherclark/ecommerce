@@ -48,7 +48,6 @@
 </head>
 <body>
 	<?php include('partials/purchases_nav.php'); ?>
-
     <div class="container-fluid">
         <div class="row">
             <div class="sidebar col-md-3 col-sm-3 col-xs-3">
@@ -114,14 +113,16 @@
                 </div>
                 <div class="row">
                     <?php
-                        foreach ($products as $product) { ?>
-                    <div class="thumbnail col-md-2 col-sm-2 col-xs-2">
-                        <img class="raw_image" src="/assets/img/used_horseshoe.png" alt="thumbnail">
-                        <p class="overlay_text">$<?=$product['price']?></p>
-                        <div class="caption">
-                            <p>(<?=$product['quantity_sold']?>) <?=$product['name']?></p>
-                        </div>
-                    </div>
+                    foreach ($products as $product) { ?>
+                        <a href="/products/show/<?=$product['id']?>">
+                            <div class="thumbnail col-md-2 col-sm-2 col-xs-2">
+                                <img class="raw_image" src="/assets/img/used_horseshoe.png" alt="thumbnail">
+                                <p class="overlay_text">$<?=$product['price']?></p>
+                                <div class="caption">
+                                    <p>(<?=$product['quantity_sold']?>) <?=$product['name']?></p>
+                                </div>
+                            </div>
+                        </a>
                     <?php } ?>
                 </div>
                 <!-- PAGINATION NAV -->

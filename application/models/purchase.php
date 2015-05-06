@@ -46,7 +46,7 @@ class  Purchase extends CI_Model {
 		else {
 			$sort_by_str = "";
 		}
-		$query= "SELECT products.name, products.price, products.quantity_sold FROM products
+		$query= "SELECT products.id, products.name, products.price, products.quantity_sold FROM products
 			LEFT JOIN product_categories ON products.id = product_categories.product_id
 			 LEFT JOIN categories ON product_categories.category_id = categories.id
 			 WHERE categories.id = ?".$sort_by_str;
