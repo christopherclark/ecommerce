@@ -20,10 +20,19 @@
         }
         .sidebar, .products {
             margin: 20px;
-            border: 3px solid black;
+            /*border: 3px solid black;*/
         }
         .thumbnail {
             border: none;
+            max-height: 180px;
+            max-width: 140px;
+        }
+        .thumbnail > div > p {
+            font-size: 0.85em;
+        }
+        .raw_image {
+            max-height: 120px;
+            max-width: 120px;
         }
         .sidebar h4 {
             margin-left: 10px;
