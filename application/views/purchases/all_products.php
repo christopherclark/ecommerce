@@ -43,6 +43,10 @@
         .sort_by, .sidebar input, .sidebar button {
             margin-top: 15px;
         }
+        .categories input[type='submit'] {
+            background-color: white;
+            border: none;
+        }
     </style>
     <script type="text/javascript">
         $(document).ready(function() {
@@ -76,10 +80,10 @@
                         </form>
                     </div>
                 </div>
-                <!-- CATEGORIES -->
+                <!-- CATEGORIES NAV -->
                 <div class="row">
                     <h4>Categories</h4>
-                    <ul class="nav nav-pills nav-stacked">
+                    <ul class="categories nav nav-pills nav-stacked">
                         <?php foreach ($category_counts as $category) { ?>
                         <li role="presentation">
                             <form action="/purchases/view_product_category_by_page" method="post">
