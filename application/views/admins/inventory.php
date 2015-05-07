@@ -22,6 +22,9 @@
 		#delete_form {
 			display: inline-block;
 		}
+		.photo {
+			height: 3em;
+		}
 	</style>
 </head>
 <body>
@@ -59,7 +62,10 @@
 			<tbody>
 				<?php foreach ($products as $product) { ?>
 				<tr>
-					<td></td>
+					<td> <?php foreach ($photos as $photo) { if($product['id'] == $photo['product_id']) { ?>
+						<img src = '<?=$photo["link"];?>' alt='photo not available' class='photo'>
+						<?php break; } } ?>
+					</td>
 					<td><?= $product['id']?></td>
 					<td><?= $product['name']?></td>
 					<td><?= $product['in_stock']?></td>
