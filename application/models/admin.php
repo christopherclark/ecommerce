@@ -101,16 +101,28 @@ class  Admin extends CI_Model {
 		return $this->db->query($query, $id)->row_array();
 	}
 
-	public function get_categories()
+	public function get_categories($id)
 	{
-		$query = "SELECT * FROM categories";
-		return $this->db->query($query)->result_array();
+		$query = "SELECT * FROM products JOIN product_categories ON products.id = product_categories.product_id JOIN categories ON product_categories.category_id = categories.id WHERE products.id = ?";
+		return $this->db->query($query, $id)->result_array();
 	}
 
 	public function get_all_products()
 	{
 		$query = "SELECT * FROM products";
 		return $this->db->query($query)->result_array();
+	}
+
+	public function get_main_photos()
+	{
+		$query = "SELECT * FROM photos WHERE main = 'main'";
+		return $this->db->query($query)->result_array();
+	}
+
+	public function get_product_photos($id)
+	{
+		$query = "SELECT * FROM photos WHERE product_id = ?";
+		return $this->db->query($query, $id)->result_array();
 	}
 
 	public function edit_product($post)
@@ -122,9 +134,37 @@ class  Admin extends CI_Model {
 		return $this->db->query($query, array($name, $description, $id));
 	}
 
-	public function upload_photo($file)
+	public function update_main_photo($post)
 	{
-	
+		$query = 'UPDATE photos SET main = "no" WHERE product_id = ?';
+		$this->db->query($query, $post['id']);
+		$query = 'UPDATE photos SET main = "main" WHERE id = ?';
+		return $this->db->query($query, $post['main']);
+	}
+
+	public function add_category($post)
+	{
+		$query = 'SELECT * FROM categories WHERE name = ?';
+		$result = $this->db->query($query, $post['category'])->row_array();
+		if($result) 
+		{
+			$query = 'INSERT INTO product_categories (product_id, category_id) VALUES (?, ?)';
+			return $this->db->query($query, array($post['id'], $result['id']));
+		}
+		else 
+		{
+			$query = 'INSERT INTO categories (name, created_at, updated_at) VALUES (?, NOW(), NOW())';
+			$this->db->query($query, $post['category']);
+			$category_id = $this->db->insert_id();
+			$query = 'INSERT INTO product_categories (product_id, category_id) VALUES (?, ?)';
+			return $this->db->query($query, array($post['id'], $category_id));
+		}
+	}
+
+	public function upload_photo($file, $post)
+	{
+		$_SERVER['AWS_ACCESS_KEY_ID'] = "";
+		$_SERVER['AWS_SECRET_KEY'] = "";
 		$s3 = S3Client::factory();
 		try {
 		    $s3->putObject(array(
@@ -136,6 +176,10 @@ class  Admin extends CI_Model {
 		} catch (S3Exception $e) {
 		    echo "There was an error uploading the file.\n";
 		}
+		$query = "INSERT INTO photos (product_id, link, created_at, updated_at, main) VALUES (?, ?, NOW(), NOW(), 'no')";
+		$link = "https://s3-us-west-1.amazonaws.com/horseshoes/" . $file['name'];
+		$values = array($post['id'], $link);
+		return $this->db->query($query, $values);
 	}
 
 	public function delete_product($id)

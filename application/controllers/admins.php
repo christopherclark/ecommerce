@@ -135,6 +135,7 @@ class  Admins extends CI_Controller {
 		else
 		{
 			$data['products'] = $this->Admin->get_all_products();
+			$data['photos'] = $this->Admin->get_main_photos();
 			$this->load->view('/admins/inventory', $data);
 		}
 	}
@@ -162,7 +163,8 @@ class  Admins extends CI_Controller {
 		else
 		{
 			$data['product'] = $this->Admin->get_product_by_id($id);
-			$data['categories'] = $this->Admin->get_categories();
+			$data['categories'] = $this->Admin->get_categories($id);
+			$data['photos'] = $this->Admin->get_product_photos($id);
 			$this->load->view('/admins/edit_product', $data);
 		}
 	}
@@ -191,9 +193,12 @@ class  Admins extends CI_Controller {
 		// 	var_dump($data);
 		// 	// $this->load->view('upload_success', $data);
 		// }
-		$this->Admin->upload_photo($_FILES['userfile']);
+		if (isset($_FILES['name'])) { $this->Admin->upload_photo($_FILES['userfile'], $this->input->post()); }
+		if (isset($_POST['category'])) {$this->Admin->add_category($this->input->post());}
 		$this->Admin->edit_product($this->input->post());
+		$this->Admin->update_main_photo($this->input->post());
 		$data['products'] = $this->Admin->get_all_products();
+		$data['photos'] = $this->Admin->get_main_photos();
 		$this->load->view('/admins/inventory', $data);
 	}
 

@@ -6,6 +6,18 @@
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="/assets/css/admins.css">
 	<title>H&H Supplies - Edit Product</title>
+	<style type="text/css">
+		#update {
+			margin-left: 45%;
+		}
+		#cancel {
+			margin-left: 30%;
+			margin-top: -3.8em;
+		}
+		.photo {
+			height: 10em;
+		}
+	</style>
 </head>
 <body>
 	<div id='container-fluid'>
@@ -42,21 +54,38 @@
 					</div>
 				</div>
 				<input type='hidden' name='MAX_FILE_SIZE' value='2000000'>
-				<input name='userfile' type='file' id='userfile'>
-				<input class='btn btn-primary' type='submit' value='Update'>
+				<div class='form-group'>
+					<label for='userfile' class='col-md-2 control-label'>Images</label>
+					<div class='col-md-10'>
+						<input name='userfile' type='file' id='userfile' class='btn'>
+					</div>
+				</div>
+				<?php foreach ($photos as $photo) { ?>
+					<div class='form-group'>
+						<label><img src='<?=$photo["link"]?>' alt="thumbnail" class='photo'></label>
+						<?php if ($photo['main']=='main') { ?>
+							<input type='radio' name='main' value='<?=$photo["id"]?>' checked> Main
+						<?php } else { ?>
+							<input type='radio' name='main' value='<?=$photo["id"]?>'> Main
+						<?php } ?>
+					</div>
+				<?php } ?>
+				<input class='btn btn-primary' type='submit' value='Update' id='update'>
+			</form>
+			<form action='/admins/get_all_products' method='post'>
+			<button class='btn btn-default' id='cancel'>Cancel</button>
 			</form>
 		</div>
 	</div>
 
-	<?php echo form_open_multipart('admins/edit_product');?>
+<!-- 	<?php echo form_open_multipart('admins/edit_product');?>
 
 <input type="file" name="userfile" size="20" />
 
 <br /><br />
 
-<input type="submit" value="upload" />
+<input type="submit" value="upload" /> -->
 
-</form>
+<!-- </form> -->
 </body>
 </html>
-<?php  var_dump($product); var_dump($categories);?>
