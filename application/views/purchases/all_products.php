@@ -196,12 +196,7 @@
                                 <input type="submit" value="last">
                             </form>
                         </li>
-                        <?php
-                        echo "category_id:<br>";
-                            var_dump($category_id);
-                            echo "max_page:<br>";
-                            var_dump($max_page);
-                            ?>
+ 
                     </ul>
                 </div>
             </div>
