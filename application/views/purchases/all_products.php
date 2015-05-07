@@ -95,7 +95,7 @@
                         </li>
                         <?php } ?>
                         <li role="presentation">
-                            <form action="/purchases/view_all_products_by_page" method="post">
+                            <form action="/purchases/view_product_category_by_page" method="post">
                                 <input type="hidden" name="sort_by" value="<?=$sort_by?>">
                                 <input type="hidden" name="page_no" value="1">
                                 <input type="hidden" name="category_id" value="0">
@@ -158,12 +158,50 @@
                 <!-- PAGINATION NAV -->
                 <div class="row col-centered">
                     <ul class="pagination col-md-10 col-md-offset-1">
-                        <li><a href="#">first</a></li>
-                        <li class="active"><a href="#">1</a></li>
-                        <?php for ($i=2; $i<=10; $i++) { ?>
-                        <li><a href="#"><?=$i?></a></li>
+                        <li>
+                            <form action="/purchases/view_product_category_by_page" method="post">
+                                <input type="hidden" name="sort_by" value="<?=$sort_by?>">
+                                <input type="hidden" name="page_no" value=1>
+                                <input type="hidden" name="category_id" value="<?=$category_id?>">
+                                <input type="submit" value="first">
+                            </form>
+                        </li>
+                        <?php 
+                            // get max page from the product count that matches the given category
+                            $matched_product_count = 0;
+                            foreach ($category_counts as $category) {
+                                if ($category_id == 0) {
+                                    $matched_product_count += $category['category_count'];
+                                }
+                                else if ($category['category_id'] == $category_id) {
+                                    $matched_product_count += $category['category_count'];
+                                }
+                            }
+                            $max_page = ceil($matched_product_count / 8);
+                            for ($page=1; $page<=$max_page; $page++) { ?>
+                            <li>
+                                <form action="/purchases/view_product_category_by_page" method="post">
+                                    <input type="hidden" name="sort_by" value="<?=$sort_by?>">
+                                    <input type="hidden" name="page_no" value="<?=$page?>">
+                                    <input type="hidden" name="category_id" value="<?=$category_id?>">
+                                    <input type="submit" value="<?=$page?>">
+                                </form>
+                            </li>
                         <?php } ?>
-                        <li><a href="#">last</a></li>
+                        <li>
+                            <form action="/purchases/view_product_category_by_page" method="post">
+                                <input type="hidden" name="sort_by" value="<?=$sort_by?>">
+                                <input type="hidden" name="page_no" value="<?=$max_page?>">
+                                <input type="hidden" name="category_id" value="<?=$category_id?>">
+                                <input type="submit" value="last">
+                            </form>
+                        </li>
+                        <?php
+                        echo "category_id:<br>";
+                            var_dump($category_id);
+                            echo "max_page:<br>";
+                            var_dump($max_page);
+                            ?>
                     </ul>
                 </div>
             </div>

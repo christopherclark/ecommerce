@@ -2,7 +2,7 @@
 
 class  Purchase extends CI_Model {
 
-	public function get_all_products($sort_by)
+	public function get_all_products($page_no, $sort_by)
 	{
 		if($sort_by == "Price") {
 			$sort_by_str = " ORDER BY products.price ASC";
@@ -14,9 +14,10 @@ class  Purchase extends CI_Model {
 			$sort_by_str = "";
 		}
 
-		$query = "SELECT * FROM products LEFT JOIN photos ON products.id = photos.product_id".$sort_by_str;
+		$query = "SELECT * FROM products LEFT JOIN photos ON products.id = photos.product_id".$sort_by_str." LIMIT ?, 8";
+		$starting_record = ($page_no - 1) * 8;
 		
-		return $this->db->query($query)->result_array();
+		return $this->db->query($query, array($starting_record))->result_array();
 	}
 
 	public function count($post)
@@ -35,7 +36,7 @@ class  Purchase extends CI_Model {
 		}
 	}
 
-	public function get_products_by_category($category_id, $sort_by)
+	public function get_products_by_category($category_id, $page_no, $sort_by)
 	{	
 		if($sort_by == "Price") {
 			$sort_by_str = " ORDER BY products.price ASC";
@@ -50,9 +51,13 @@ class  Purchase extends CI_Model {
 			LEFT JOIN product_categories ON products.id = product_categories.product_id
 			 LEFT JOIN categories ON product_categories.category_id = categories.id
 			 LEFT JOIN photos ON products.id = photos.product_id
-			 WHERE categories.id = ?".$sort_by_str;
+			 WHERE categories.id = ?".$sort_by_str." LIMIT ?, 8";
+		$starting_record = ($page_no - 1) * 8;
 
-		return $this->db->query($query, array($category_id))->result_array();
+		// echo "GET_PRODUCTS_BY_CATEGORY<br>";
+		// var_dump($query);
+		// die();
+		return $this->db->query($query, array($category_id, $starting_record))->result_array();
 	}
 
 	public function get_all_categories()
