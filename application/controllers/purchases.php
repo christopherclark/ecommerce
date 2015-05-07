@@ -168,36 +168,52 @@ class  Purchases extends CI_Controller {
 
 	public function validate_billing()
 	{
-		// $this->load->helper(array('form', 'url'));
-		// $this->load->library("form_validation");
-		// $this->form_validation->set_rules("ship_first_name", "First Name", "required");
-		// $this->form_validation->set_rules("ship_last_name", "Last Name", "required");
-		// $this->form_validation->set_rules("ship_address", "Address", "required");
-		// $this->form_validation->set_rules("ship_city", "City", "required");
-		// $this->form_validation->set_rules("ship_state", "State", "required");
-		// $this->form_validation->set_rules("ship_zipcode", "Zip Code", "required");
+		$this->load->helper(array('form', 'url'));
+		$this->load->library("form_validation");
+		$this->form_validation->set_rules("ship_first_name", "First Name", "required");
+		$this->form_validation->set_rules("ship_last_name", "Last Name", "required");
+		$this->form_validation->set_rules("ship_address", "Address", "required");
+		$this->form_validation->set_rules("ship_city", "City", "required");
+		$this->form_validation->set_rules("ship_state", "State", "required");
+		$this->form_validation->set_rules("ship_zipcode", "Zip Code", "required|integer|exact_length[5]");
 		// $this->form_validation->set_rules("first_name", "First Name", "required");
 		// $this->form_validation->set_rules("last_name", "Last Name", "required");
 		// $this->form_validation->set_rules("address", "Address", "required");
 		// $this->form_validation->set_rules("city", "City", "required");
 		// $this->form_validation->set_rules("state", "State", "required");
-		// $this->form_validation->set_rules("zipcode", "Zip Code", "required");
-		// $this->form_validation->set_rules("card", "Credit Card Number", "required");
-		// $this->form_validation->set_rules("security_code", "Security Code", "required");
-		// $this->form_validation->set_rules("expiration_month", "Expiration Month", "required");
-		// $this->form_validation->set_rules("expiration_year", "Expiration Year", "required");
-	
-		// if($this->form_validation->run() == FALSE)
-		// {
-			// var_dump($this->session->userdata('cart_items'));
-			// var_dump($this->input->post());
-			// die();
+		// $this->form_validation->set_rules("zipcode", "Zip Code", "required|integer|exact_length[5]");
+		$this->form_validation->set_error_delimiters('<div class="error">', '</div>');
 
-		// $data['products']= $this->Purchase->load_cart();
-		// $this->load->view('/purchases/checkout', $data);
-		// }
-		// else
-		// {
+		if($this->form_validation->run() == FALSE)
+		{
+		$data['products']= $this->Purchase->load_cart();
+		$this->load->view('/purchases/checkout', $data);
+		}
+		else
+		{ 
+			var_dump($this->session->userdata('cart_items'));
+			var_dump($this->input->post());
+			echo "no errors";
+			die();
+
+			// Set your secret key: remember to change this to your live secret key in production
+			// See your keys here https://dashboard.stripe.com/account/apikeys
+			// \Stripe\Stripe::setApiKey("sk_test_cB3Cm0Ttj8FTKl5kFdxfsnIR");
+
+			// Get the credit card details submitted by the form
+			// $token = $this->input->post('stripeToken');
+
+			// Create the charge on Stripe's servers - this will charge the user's card
+			// try {
+			// $charge = \Stripe\Charge::create(array(
+			//   "amount" => 1000, // amount in cents, again
+			//   "currency" => "usd",
+			//   "source" => $token,
+			//   "description" => "Example charge")
+			// );
+			// } catch(\Stripe\Error\Card $e) {
+			//   The card has been declined
+			// }
 
 		$billing_id = $this->Purchase->new_billings($this->input->post());
 		$id=$billing_id;
@@ -208,7 +224,7 @@ class  Purchases extends CI_Controller {
 		$id=$order_id;
 		
 		$this->Purchase->new_order_products($id);
-
+		}
 	}
 	public function products()
 	{
@@ -246,5 +262,3 @@ class  Purchases extends CI_Controller {
 
 }
 
-
-}

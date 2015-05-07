@@ -103,12 +103,13 @@ class  Purchase extends CI_Model {
 	}
 
 	public function new_billings($post)
-	{
+	{	
+		$cart_items = $this->session->userdata('cart_items');
+		if(empty($cart_items)){ return;}
 		$query = "INSERT INTO billings (shipping_first, shipping_last,
 		 	shipping_address, shipping_city, shipping_state, shipping_zip,
-		 	billing_first, billing_last, billing_address, billing_city, billing_state, billing_zip, card,
-		 	security, expiration_month, expiration_year, created_at, updated_at)
-			VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?, NOW(), NOW())";
+		 	 created_at, updated_at)
+			VALUES (?,?,?,?,?,?, NOW(), NOW())";
 		$this->db->query($query, $this->input->post());
 		return $this->db->insert_id();
 	}
