@@ -10,7 +10,10 @@ class  Purchases extends CI_Controller {
 
 	public function get_category_name($category_id) 
 	{
-		if ($category_id == 0) {
+		if ($category_id == -1) {
+			return "Search Results";
+		}
+		else if ($category_id == 0) {
 			return "All Products";
 		}
 		else {
@@ -42,7 +45,7 @@ class  Purchases extends CI_Controller {
 
 	public function view_all_products_by_page()
 	{
-		echo "WHY AM I HERE? I SHOULDN'T BE HERE!<br>";
+		echo "WHY AM I HERE IN view_all_products_by_page? I SHOULDN'T BE HERE!<br>";
 		die();
 
 		// 0. GET CATEGORY COUNTS
@@ -70,6 +73,7 @@ class  Purchases extends CI_Controller {
 		$data['sort_by'] = $this->input->post('sort_by');
 
 		// 2. GET THE SELECTED RECORDS
+		$data['search_str'] = $this->input->post('search_str');
 		$data['category_id'] = $this->input->post('category_id');
 		$data['category_name'] = $this->get_category_name($data['category_id']);
 		$data['page_no'] = $this->input->post('page_no');
@@ -95,8 +99,13 @@ class  Purchases extends CI_Controller {
 
 	public function get_products_by_name()
 	{	
-		// 0. GET CATEGORY COUNTS
+		// 0A. GET CATEGORY COUNTS
 		$data['category_counts'] = $this->Purchase->get_category_counts();
+
+		// 0B. GET SEARCH COUNTS
+		$data['search_str'] = $this->input->post('search_str');
+		$result = $this->Purchase->get_search_counts($this->input->post('search_str'));
+		$data['search_count'] = $result['search_count'];
 
 		// 1. GET THE SORT MODE
 		$data['sort_by'] = $this->input->post('sort_by');
@@ -104,13 +113,15 @@ class  Purchases extends CI_Controller {
 		// 2. GET THE SELECTED RECORDS
 		$data['category_id'] = $this->input->post('category_id');
 		if ($data['category_id'] == 0) {
+			echo "WHY AM I HERE IN get_products_by_name? I SHOULDN'T BE HERE!<br>";
+			die();
 			$data['category_name'] = "All Products";
 		}
 		else {
 			$data['category_name'] = $this->get_category_name($data['category_id']);
 		}
 		$data['page_no'] = $this->input->post('page_no');
-		$data['products'] = $this->Purchase->get_products_by_name($this->input->post('search_val'));
+		$data['products'] = $this->Purchase->get_products_by_name($this->input->post('search_str'),$data['page_no'],$data['sort_by']);
 
 		// 3. LOAD THE VIEW		
 		$this->load->view('/purchases/all_products', $data);
@@ -235,20 +246,28 @@ class  Purchases extends CI_Controller {
 
 	public function sort_by()
 	{
-		// 0. GET CATEGORY COUNTS
+		// 0A. GET CATEGORY COUNTS
 		$data['category_counts'] = $this->Purchase->get_category_counts();
+
+		// 0B. GET SEARCH COUNTS
+		$data['search_str'] = $this->input->post('search_str');
+		$result = $this->Purchase->get_search_counts($this->input->post('search_str'));
+		$data['search_count'] = $result['search_count'];
 
 		// 1. GET THE SORT MODE
 		$data['sort_by'] = $this->input->post('sort_by');
 
 		// 2. GET THE SELECTED RECORDS
+		$data['search_str'] = $this->input->post('search_str');
 		$data['category_id'] = $this->input->post('category_id');
 		$data['page_no'] = $this->input->post('page_no');
-		if ($data['category_id'] == 0) {
-			$data['category_name'] = "All Products";
+		$data['category_name'] = $this->get_category_name($data['category_id']);
+		if ($data['category_id'] == -1) {
+			$data['products'] = $this->Purchase->get_products_by_name($data['search_str'],$data['page_no'],$data['sort_by']);
+		}
+		else if ($data['category_id'] == 0) {
 			$data['products'] = $this->Purchase->get_all_products($data['page_no'],$data['sort_by']);
 		} else {
-			$data['category_name'] = $this->get_category_name($data['category_id']);
 			$data['products'] = $this->Purchase->get_products_by_category($data['category_id'],$data['page_no'],$data['sort_by']);
 		}
 

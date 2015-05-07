@@ -77,6 +77,14 @@ class  Purchase extends CI_Model {
 		return $this->db->query($query)->result_array();
 	}
 
+	public function get_search_counts($name)
+	{
+		$query = "SELECT COUNT(products.id) as search_count FROM products 
+				WHERE products.name LIKE '%".$name."%'";
+
+		return $this->db->query($query)->row_array();
+	}
+
 	public function get_product_by_id($id)
 	{
 		$query = "SELECT * FROM products 
@@ -86,12 +94,24 @@ class  Purchase extends CI_Model {
 		return $this->db->query($query, $id)->row_array();
 	}
 
-	public function get_products_by_name($name)
+	public function get_products_by_name($name, $page_no, $sort_by)
 	{
+		if($sort_by == "Price") {
+			$sort_by_str = " ORDER BY products.price ASC";
+		}
+		else if ($sort_by == "Most Popular") {
+			$sort_by_str = " ORDER BY products.quantity_sold DESC";
+		}
+		else {
+			$sort_by_str = "";
+		}
+
 		$query = "SELECT * FROM products 
 				LEFT JOIN photos ON products.id = photos.product_id
-				WHERE products.name LIKE '%".$name."%'";
-		return $this->db->query($query)->result_array();
+				WHERE products.name LIKE '%".$name."%'".$sort_by_str." LIMIT ?, 8";
+		$starting_record = ($page_no - 1) * 8;
+
+		return $this->db->query($query, array($starting_record))->result_array();
 	}
 
 	public function load_cart()
