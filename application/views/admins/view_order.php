@@ -41,7 +41,7 @@
 	<div class='container-fluid'>
 		<div class='row'>
 			<div id='bordered' class='col-md-3 col-md-offset-1'>
-				<p>Order ID: <?= $order['id']?></p><br>
+				<p>Order ID: <?= $order['order_id']?></p><br>
 				<p>Customer shipping info:</p>
 				<p>Name: <?= $order['shipping_first']?> <?=$order['shipping_last']?></p>
 				<p>Address: <?= $order['shipping_address']?></p>

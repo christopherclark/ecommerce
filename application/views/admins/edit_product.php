@@ -12,6 +12,7 @@
 		<h2>Edit Product - ID <?= $product['id']?></h2>
 		<div class='col-md-6'>
 			<form class='form-horizontal' method='post' action='/admins/edit_product' enctype='multipart/form-data'>
+				<input type='hidden' name='id' value='<?= $product["id"]?>'>
 				<div class='form-group'>
 					<label for='name' class='col-md-2 control-label'>Name</label>
 					<div class='col-md-10'>
@@ -46,6 +47,16 @@
 			</form>
 		</div>
 	</div>
+
+	<?php echo form_open_multipart('admins/edit_product');?>
+
+<input type="file" name="userfile" size="20" />
+
+<br /><br />
+
+<input type="submit" value="upload" />
+
+</form>
 </body>
 </html>
 <?php  var_dump($product); var_dump($categories);?>
