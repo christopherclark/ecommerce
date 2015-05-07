@@ -6,6 +6,10 @@ class  Admins extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('Admin');
+
+		/////
+		$this->load->helper(array('form', 'url'));
+		////
 	}
 
 	public function index()
@@ -26,12 +30,12 @@ class  Admins extends CI_Controller {
         	$admin_id = $this->Admin->validate_login(set_value('email'), set_value('password'));
         	if(!$admin_id) 
         	{
-        	$this->session->set_flashdata('login_errors', "Incorrect email/password combination");
-        	redirect('/admins');
+	        	$this->session->set_flashdata('login_errors', "Incorrect email/password combination");
+	        	redirect('/admins');
         	}
         	else
         	{
-        		$this->session->set_userdata($admin_id);
+        		$this->session->set_userdata('admin_id',$admin_id['id']);
         		$this->get_all_orders();
         	}
         }
@@ -56,14 +60,70 @@ class  Admins extends CI_Controller {
 		}
 		else
 		{
-			$data['orders'] = $this->Admin->get_all_orders();
-			$this->load->view('/admins/all_orders', $data);
+			$this->load->view('/admins/all_orders');
 		}
+	}
+
+	public function get_order_status()
+	{
+		$data['page_no'] = 0;
+		$data['statuses'] = 'show all';
+		$data['count'] = $this->Admin->get_all_orders_count();
+		$data['orders'] = $this->Admin->get_all_orders($data['page_no']);
+		$this->load->view('/admins/partials/status_form',$data);
 	}
 
 	public function update_order_status()
 	{
-		$this->Admin->update_order_status($id);
+		$page_no = intval($this->input->post('page_no'));
+		$data['statuses'] = $this->input->post('statuses');
+		$this->Admin->update_order_status($this->input->post());
+		if($data['statuses']=='show all') 
+		{
+			$data['count'] = $this->Admin->get_all_orders_count();
+			$data['orders'] = $this->Admin->get_all_orders($page_no);
+			$this->load->view('/admins/partials/status_form',$data);
+		}
+		else
+		{
+			$this->filter_by_status();
+		}
+	}
+
+	public function filter_by_status()
+	{
+		$page_no = intval($this->input->post('page_no')) * 8;
+		$data['statuses'] = $this->input->post('statuses');
+		if($data['statuses']=='show all') 
+		{
+			$data['count'] = $this->Admin->get_all_orders_count();
+			$data['orders'] = $this->Admin->get_all_orders($page_no);
+			$this->load->view('/admins/partials/status_form',$data);
+		}
+		else
+		{
+			$data['count'] = $this->Admin->filter_by_status_count($this->input->post());
+			$data['orders'] = $this->Admin->filter_by_status($this->input->post());
+			$this->load->view('/admins/partials/status_form',$data);
+		}
+	}
+
+	public function search_orders()
+	{
+		$data['page_no'] = $this->input->post('page_no');
+		$data['statuses'] = $this->input->post('statuses');
+		if($data['statuses']=='show all')
+		{
+			$data['count'] = $this->Admin->search_orders_all_count($this->input->post());
+			$data['orders'] = $this->Admin->search_orders_all($this->input->post());
+		}
+		else
+		{
+			$data['count'] = $this->Admin->search_orders_count($this->input->post());
+			$data['orders'] = $this->Admin->search_orders($this->input->post());
+		}
+		$data['search'] = $this->input->post('search');
+		$this->load->view('/admins/partials/status_form',$data);
 	}
 
 	public function get_all_products()
@@ -109,8 +169,32 @@ class  Admins extends CI_Controller {
 
 	public function edit_product()
 	{
+		// $config['upload_path'] = './uploads/';
+		// $config['allowed_types'] = 'gif|jpg|png';
+		// $config['max_size']	= '100';
+		// $config['max_width']  = '1024';
+		// $config['max_height']  = '768';
+		// $this->load->library('upload', $config);
+
+
+		// if ( !$this->upload->do_upload())
+		// {
+		// 	$error = array('error' => $this->upload->display_errors());
+
+		// 	// $this->load->view('upload_form', $error);
+		// 	var_dump($error);
+		// }
+		// else
+		// {
+		// 	$data = array('upload_data' => $this->upload->data());
+		// 	var_dump($this->input->post());
+		// 	var_dump($data);
+		// 	// $this->load->view('upload_success', $data);
+		// }
+		$this->Admin->upload_photo($_FILES['userfile']);
 		$this->Admin->edit_product($this->input->post());
-		$this->load->view('/admins/inventory');
+		$data['products'] = $this->Admin->get_all_products();
+		$this->load->view('/admins/inventory', $data);
 	}
 
 	public function delete_product()

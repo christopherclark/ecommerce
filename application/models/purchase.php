@@ -14,7 +14,7 @@ class  Purchase extends CI_Model {
 			$sort_by_str = "";
 		}
 
-		$query = "SELECT * FROM products".$sort_by_str;
+		$query = "SELECT * FROM products LEFT JOIN photos ON products.id = photos.product_id".$sort_by_str;
 		
 		return $this->db->query($query)->result_array();
 	}
@@ -46,9 +46,10 @@ class  Purchase extends CI_Model {
 		else {
 			$sort_by_str = "";
 		}
-		$query= "SELECT products.name, products.price, products.quantity_sold FROM products
+		$query= "SELECT products.id, products.name, products.price, products.quantity_sold, photos.link FROM products
 			LEFT JOIN product_categories ON products.id = product_categories.product_id
 			 LEFT JOIN categories ON product_categories.category_id = categories.id
+			 LEFT JOIN photos ON products.id = photos.product_id
 			 WHERE categories.id = ?".$sort_by_str;
 
 		return $this->db->query($query, array($category_id))->result_array();
@@ -65,22 +66,26 @@ class  Purchase extends CI_Model {
 	{
 		$query= "SELECT categories.id as category_id, categories.name as category_name, COUNT(category_id) as category_count FROM products
 			LEFT JOIN product_categories ON products.id = product_categories.product_id
-			 LEFT JOIN categories ON product_categories.category_id = categories.id
-             GROUP BY category_id";
+			LEFT JOIN categories ON product_categories.category_id = categories.id
+            GROUP BY category_id";
 
 		return $this->db->query($query)->result_array();
 	}
 
 	public function get_product_by_id($id)
 	{
-		$query = "SELECT * FROM products WHERE id  = ?";
+		$query = "SELECT * FROM products 
+			LEFT JOIN photos ON products.id = photos.product_id
+			WHERE products.id  = ?";
 
 		return $this->db->query($query, $id)->row_array();
 	}
 
 	public function get_products_by_name($name)
 	{
-		$query = "SELECT * FROM products WHERE products.name LIKE '%".$name."%'";
+		$query = "SELECT * FROM products 
+				LEFT JOIN photos ON products.id = photos.product_id
+				WHERE products.name LIKE '%".$name."%'";
 		return $this->db->query($query)->result_array();
 	}
 
