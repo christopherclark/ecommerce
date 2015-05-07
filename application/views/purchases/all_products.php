@@ -93,7 +93,7 @@
                 </div>
             </div>
 
-            <div class="products col-md-8 col-sm-7 col-xs-7">
+            <div class="products col-md-7 col-sm-7 col-xs-7">
                 <!-- THUMBNAILS -->
                 <div class="row">
                     <div class="col-md-8">
@@ -113,17 +113,34 @@
                 </div>
                 <div class="row">
                     <?php
-                    foreach ($products as $product) { ?>
+                    $count = 0;
+                    foreach ($products as $product) { 
+
+                        if ($count%4 == 0) {
+                            echo "<div class='row'>";
+                        }
+                    ?>
                         <a href="/products/show/<?=$product['id']?>">
-                            <div class="thumbnail col-md-2 col-sm-2 col-xs-2">
-                                <img class="raw_image" src="/assets/img/used_horseshoe.png" alt="thumbnail">
+                            <div class="thumbnail col-md-3 col-sm-3 col-xs-2">
+                                <img class="raw_image" src="<?=$product['link']?>" alt="thumbnail">
                                 <p class="overlay_text">$<?=$product['price']?></p>
                                 <div class="caption">
                                     <p>(<?=$product['quantity_sold']?>) <?=$product['name']?></p>
                                 </div>
                             </div>
                         </a>
-                    <?php } ?>
+                    <?php 
+
+                        $count++;
+                        if ($count%4 == 0) {
+                            echo "</div>";
+                        }
+
+                    } 
+                    if ($count%4 != 0) {
+                        echo "</div>";
+                    }
+                    ?>
                 </div>
                 <!-- PAGINATION NAV -->
                 <div class="row col-centered">

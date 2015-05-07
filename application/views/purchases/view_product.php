@@ -15,11 +15,11 @@
 		<h1><?=$product['name']?></h1>
 		<div class="row">
 			<div class="col-md-4 col-sm-4 col-xs-4"> <!-- left third -->
-				<img src="/assets/img/used_horseshoe.png" width="100%" alt="thumbnail">
+				<img src="<?=$product['link']?>" width="100%" alt="thumbnail">
 				<div class="row">
 					<?php for ($i=0; $i<4; $i++) { ?>
 					<div class="col-md-3 col-sm-3 col-xs-3">
-						<img src="/assets/img/used_horseshoe.png" width="100%" alt="thumbnail">
+						<img src="https://s3-us-west-1.amazonaws.com/horseshoes/not-available.png" width="100%" alt="thumbnail">
 					</div>
 					<?php } ?>
 				</div>
@@ -55,7 +55,7 @@
 			<div class="col-xs-2">
 				<a href="/products/show/<?=$p?>">
 				<div class="thumbnail">
-					<img src="/assets/img/used_horseshoe.png" alt="thumbnail">
+					<img src="https://s3-us-west-1.amazonaws.com/horseshoes/not-available.png" alt="thumbnail">
 					<div class="caption">
 						<p>product #<?=$p?></p>
 					</div>
