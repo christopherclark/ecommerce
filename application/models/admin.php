@@ -1,6 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 require "assets/vendor/autoload.php";
+require "assets/vendor/secrets.php";
 		use Aws\S3\S3Client;
 		use Aws\S3\Exception\S3Exception;
 
@@ -163,8 +164,6 @@ class  Admin extends CI_Model {
 
 	public function upload_photo($file, $post)
 	{
-		$_SERVER['AWS_ACCESS_KEY_ID'] = "";
-		$_SERVER['AWS_SECRET_KEY'] = "";
 		$s3 = S3Client::factory();
 		try {
 		    $s3->putObject(array(

@@ -193,7 +193,7 @@ class  Admins extends CI_Controller {
 		// 	var_dump($data);
 		// 	// $this->load->view('upload_success', $data);
 		// }
-		if (isset($_FILES['name'])) { $this->Admin->upload_photo($_FILES['userfile'], $this->input->post()); }
+		if ($_FILES['userfile']['name'] != "") { $this->Admin->upload_photo($_FILES['userfile'], $this->input->post()); }
 		if (isset($_POST['category'])) {$this->Admin->add_category($this->input->post());}
 		$this->Admin->edit_product($this->input->post());
 		$this->Admin->update_main_photo($this->input->post());

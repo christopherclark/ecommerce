@@ -87,7 +87,7 @@
 								src="/assets/img/trashcan.png"></a>
 							<a href="/purchases/get_product_by_id/<?=$product['id']?>"
 								 class="pull-right">update</a></td>
-						<td>$<? $sub_total = $cart_items[$product['id']] * $product['price'];
+						<td>$<?php $sub_total = $cart_items[$product['id']] * $product['price'];
 							$final_price += $sub_total;
 							echo $sub_total ?></td>
 					</tr> 
