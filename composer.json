@@ -3,3 +3,11 @@
         "aws/aws-sdk-php": "2.*"
     }
 }
+
+
+
+{
+  "require": {
+    "stripe/stripe-php": "2.*"
+  }
+}

@@ -133,12 +133,13 @@ class  Purchase extends CI_Model {
 	}
 
 	public function new_billings($post)
-	{
+	{	
+		$cart_items = $this->session->userdata('cart_items');
+		if(empty($cart_items)){ return;}
 		$query = "INSERT INTO billings (shipping_first, shipping_last,
 		 	shipping_address, shipping_city, shipping_state, shipping_zip,
-		 	billing_first, billing_last, billing_address, billing_city, billing_state, billing_zip, card,
-		 	security, expiration_month, expiration_year, created_at, updated_at)
-			VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?, NOW(), NOW())";
+		 	 created_at, updated_at)
+			VALUES (?,?,?,?,?,?, NOW(), NOW())";
 		$this->db->query($query, $this->input->post());
 		return $this->db->insert_id();
 	}
@@ -188,4 +189,22 @@ class  Purchase extends CI_Model {
 		}
 		redirect('/purchases/order_complete');
 	}	
+
+	public function also_bought($id)
+	{
+		$query = "SELECT a.product_id, b.product_id FROM order_products a, order_products b
+				WHERE a.order_id = b.order_id AND a.product_id = $id";
+				return $this->db->query($query, $id)->row_array();
+
+		foreach($ids as $id){
+		$query = "SELECT products.name, products.price
+		FROM products
+		LEFT JOIN order_products 
+		ON products.id = order_products.product_id 
+		WHERE order_products.order_id = $id";
+				$this->db->query($query, array($ids))->result_array();
+		}
+		redirect('/purchases/selfie');
+
+	}
 }

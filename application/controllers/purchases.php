@@ -190,36 +190,27 @@ class  Purchases extends CI_Controller {
 
 	public function validate_billing()
 	{
-		// $this->load->helper(array('form', 'url'));
-		// $this->load->library("form_validation");
-		// $this->form_validation->set_rules("ship_first_name", "First Name", "required");
-		// $this->form_validation->set_rules("ship_last_name", "Last Name", "required");
-		// $this->form_validation->set_rules("ship_address", "Address", "required");
-		// $this->form_validation->set_rules("ship_city", "City", "required");
-		// $this->form_validation->set_rules("ship_state", "State", "required");
-		// $this->form_validation->set_rules("ship_zipcode", "Zip Code", "required");
-		// $this->form_validation->set_rules("first_name", "First Name", "required");
-		// $this->form_validation->set_rules("last_name", "Last Name", "required");
-		// $this->form_validation->set_rules("address", "Address", "required");
-		// $this->form_validation->set_rules("city", "City", "required");
-		// $this->form_validation->set_rules("state", "State", "required");
-		// $this->form_validation->set_rules("zipcode", "Zip Code", "required");
-		// $this->form_validation->set_rules("card", "Credit Card Number", "required");
-		// $this->form_validation->set_rules("security_code", "Security Code", "required");
-		// $this->form_validation->set_rules("expiration_month", "Expiration Month", "required");
-		// $this->form_validation->set_rules("expiration_year", "Expiration Year", "required");
-	
-		// if($this->form_validation->run() == FALSE)
-		// {
+		$this->load->helper(array('form', 'url'));
+		$this->load->library("form_validation");
+		$this->form_validation->set_rules("ship_first_name", "First Name", "required");
+		$this->form_validation->set_rules("ship_last_name", "Last Name", "required");
+		$this->form_validation->set_rules("ship_address", "Address", "required");
+		$this->form_validation->set_rules("ship_city", "City", "required");
+		$this->form_validation->set_rules("ship_state", "State", "required");
+		$this->form_validation->set_rules("ship_zipcode", "Zip Code", "required");
+		$this->form_validation->set_error_delimiters('<div class="error">', '</div>');
+
+		if($this->form_validation->run() == FALSE)
+		{
+		$data['products']= $this->Purchase->load_cart();
+		$this->load->view('/purchases/checkout', $data);
+		}
+		else
+		{ 
 			// var_dump($this->session->userdata('cart_items'));
 			// var_dump($this->input->post());
+			// echo "no errors";
 			// die();
-
-		// $data['products']= $this->Purchase->load_cart();
-		// $this->load->view('/purchases/checkout', $data);
-		// }
-		// else
-		// {
 
 		$billing_id = $this->Purchase->new_billings($this->input->post());
 		$id=$billing_id;
@@ -230,7 +221,7 @@ class  Purchases extends CI_Controller {
 		$id=$order_id;
 		
 		$this->Purchase->new_order_products($id);
-
+		}
 	}
 	public function products()
 	{
@@ -275,4 +266,11 @@ class  Purchases extends CI_Controller {
 		$this->load->view('/purchases/all_products', $data);
 	}
 
+	public function selfie($id)
+	{
+		redirect('purchases/self_join');
+	}
+
 }
+
+
