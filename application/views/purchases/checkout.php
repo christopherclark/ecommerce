@@ -20,9 +20,7 @@
       		else {
         		// token contains id, last4, and card type
         		var token = response.id;
-        		// Insert the token into the form so it gets submitted to the server
         		$form.append($('<input type="hidden" name= "stripeToken" />').val(token));
-        		// and re-submit
         		$form.get(0).submit();
       		}
     	}
@@ -31,7 +29,6 @@
 	  		$('#payment-form').submit(function(e) {
 	    		var $form = $(this);
 
-	   	 		// Disable the submit button to prevent repeated clicks
 	    		$form.find('button').prop('disabled', true);
 
 	    		Stripe.card.createToken($form, stripeResponseHandler);
@@ -42,13 +39,14 @@
 
 				try {
 					$charge = \Stripe\Charge::create(array(
-					  "amount" => $final_price * 100,
+					  "amount" => 1000,
 					  "currency" => "usd",
 					  "source" => $token,
+					  "card" => $_POST['stripeToken'],
 					  "description" => "Example charge")
 					);
-					} catch(\Stripe\Error\Card $e) {
-					  // The card has been declined
+					} catch(Stripe_CardError $e) {
+					   echo "card declined";die();
 					}
 				});
 			});
@@ -83,8 +81,7 @@
 						<td><?= $product['name']; ?></td>
 						<td>$<?= $product['price']; ?></td>
 						<td><?=$cart_items[$product['id']];
-								$id=$product['id'];
-						?>
+								$id=$product['id']; ?>
 							<a href = "/purchases/delete_item_from_cart/<?= $id ?>">
 								<img class="checkout icon pull-right" 
 								src="/assets/img/trashcan.png"></a>
@@ -94,9 +91,7 @@
 							$final_price += $sub_total;
 							echo $sub_total ?></td>
 					</tr> 
-				<?php } } }
-
-				?>
+				<?php } } } ?>
 			</tbody>
 		</table>
 		<div class="row">
@@ -152,7 +147,7 @@
 				</div>
 			</div>
 
-		<!-- 	<h2>Billing Information</h2>
+			<h2>Billing Information</h2>
 
 			<div class="form-group">
 				<div class="col-md-3 col-sm-5 col-xs-7">
@@ -202,7 +197,7 @@
 					<?php echo form_error('zipcode'); ?>
 					<input type="text" class="form-control" name="zipcode" value="<?php echo set_value('zipcode'); ?>">
 				</div>
-			</div><br> -->
+			</div><br>
 
 		<!-- 	<span class="payment-errors"></span>
 

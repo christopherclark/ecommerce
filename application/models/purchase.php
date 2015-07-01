@@ -164,4 +164,22 @@ class  Purchase extends CI_Model {
 		}
 		redirect('/purchases/order_complete');
 	}	
+
+	public function also_bought($id)
+	{
+		$query = "SELECT a.product_id, b.product_id FROM order_products a, order_products b
+				WHERE a.order_id = b.order_id AND a.product_id = $id";
+				return $this->db->query($query, $id)->row_array();
+
+		foreach($ids as $id){
+		$query = "SELECT products.name, products.price
+		FROM products
+		LEFT JOIN order_products 
+		ON products.id = order_products.product_id 
+		WHERE order_products.order_id = $id";
+				$this->db->query($query, array($ids))->result_array();
+		}
+		redirect('/purchases/selfie');
+
+	}
 }

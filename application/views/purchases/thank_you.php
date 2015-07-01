@@ -13,8 +13,7 @@
 </head>
 <body>
 	<?php include('partials/purchases_nav.php'); ?>
-	<h2>Thank you for your order!</h2><br>
-	<p>You will receive an email confirmation of your order.<p>
-	<p>Please enjoy your projectiles responsibly.</p>
+	<h2>Thank you for your purchase!</h2><br>
+	<p>Please enjoy your projectiles responsibly</p>
 </body>
 <html>
