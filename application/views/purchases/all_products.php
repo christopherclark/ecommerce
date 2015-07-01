@@ -20,10 +20,19 @@
         }
         .sidebar, .products {
             margin: 20px;
-            border: 3px solid black;
+            /*border: 3px solid black;*/
         }
         .thumbnail {
             border: none;
+            max-height: 180px;
+            max-width: 140px;
+        }
+        .thumbnail > div > p {
+            font-size: 0.85em;
+        }
+        .raw_image {
+            max-height: 120px;
+            max-width: 120px;
         }
         .sidebar h4 {
             margin-left: 10px;
@@ -33,6 +42,13 @@
         }
         .sort_by, .sidebar input, .sidebar button {
             margin-top: 15px;
+        }
+        .categories input[type='submit'] {
+            background-color: white;
+            border: none;
+        }
+        .pagination li {
+            display: inline-block;
         }
     </style>
     <script type="text/javascript">
@@ -47,8 +63,16 @@
     </script>
 </head>
 <body>
-	<?php include('partials/purchases_nav.php'); ?>
+    <?php include('partials/purchases_nav.php'); ?>
     <div class="container-fluid">
+        <?php   if ($category_id == -1) {
+                    $method = "get_products_by_name";
+                    $search_string = $search_str;
+                } else {
+                    $method = "view_product_category_by_page";
+                    $search_string = "";
+                }
+        ?>
         <div class="row">
             <div class="sidebar col-md-3 col-sm-3 col-xs-3">
                 <!-- SEARCH BAR -->
@@ -58,8 +82,9 @@
                             <div class="input-group">
                                 <input type="hidden" name="sort_by" value="<?=$sort_by?>">
                                 <input type="hidden" name="page_no" value="1">
-                                <input type="hidden" name="category_id" value="0">
-                                <input type="text" class="form-control" name="search_val" placeholder="product name">
+                                <input type="hidden" name="category_id" value="-1">
+                                <input type="hidden" name="search_str" value="<?=$search_string?>">
+                                <input type="text" class="form-control" name="search_str" placeholder="product name">
                                 <span class="input-group-btn">
                                 <input type="submit" class="btn btn-default" value="Go!">
                                 </span>
@@ -67,25 +92,27 @@
                         </form>
                     </div>
                 </div>
-                <!-- CATEGORIES -->
+                <!-- CATEGORIES NAV -->
                 <div class="row">
                     <h4>Categories</h4>
-                    <ul class="nav nav-pills nav-stacked">
+                    <ul class="categories nav nav-pills nav-stacked">
                         <?php foreach ($category_counts as $category) { ?>
                         <li role="presentation">
                             <form action="/purchases/view_product_category_by_page" method="post">
                                 <input type="hidden" name="sort_by" value="<?=$sort_by?>">
                                 <input type="hidden" name="page_no" value="1">
                                 <input type="hidden" name="category_id" value="<?=$category['category_id']?>">
+                                <input type="hidden" name="search_str" value="<?=$search_string?>">
                                 <input type="submit" value="<?=$category['category_name']?> (<?=$category['category_count']?>)">
                             </form>
                         </li>
                         <?php } ?>
                         <li role="presentation">
-                            <form action="/purchases/view_all_products_by_page" method="post">
+                            <form action="/purchases/view_product_category_by_page" method="post">
                                 <input type="hidden" name="sort_by" value="<?=$sort_by?>">
                                 <input type="hidden" name="page_no" value="1">
                                 <input type="hidden" name="category_id" value="0">
+                                <input type="hidden" name="search_str" value="<?=$search_string?>">
                                 <input type="submit" value="Show All">
                             </form>
                         </li>
@@ -103,6 +130,7 @@
                         <form class="sort_by" action="/purchases/sort_by" method="post">
                             <input type="hidden" name="page_no" value="1">
                             <input type="hidden" name="category_id" value="<?=$category_id?>">
+                            <input type="hidden" name="search_str" value="<?=$search_string?>">
                             <label for="sort_by">Sorted by</label>
                             <select name="sort_by">
                                 <option value="Price"<?php if($sort_by=='Price'){ echo ' selected'; } ?>>Price</option>
@@ -145,12 +173,53 @@
                 <!-- PAGINATION NAV -->
                 <div class="row col-centered">
                     <ul class="pagination col-md-10 col-md-offset-1">
-                        <li><a href="#">first</a></li>
-                        <li class="active"><a href="#">1</a></li>
-                        <?php for ($i=2; $i<=10; $i++) { ?>
-                        <li><a href="#"><?=$i?></a></li>
+                        <li>
+                            <form action="/purchases/<?=$method?>" method="post">
+                                <input type="hidden" name="sort_by" value="<?=$sort_by?>">
+                                <input type="hidden" name="page_no" value=1>
+                                <input type="hidden" name="category_id" value="<?=$category_id?>">
+                                <input type="hidden" name="search_str" value="<?=$search_string?>">
+                                <input type="submit" value="first">
+                            </form>
+                        </li>
+                        <?php 
+
+                            // get max page from the product count that matches the given category
+                            if ($category_id == -1) {
+                                $matched_product_count = $search_count;
+                            }
+                            else {
+                                $matched_product_count = 0;
+                                foreach ($category_counts as $category) {
+                                    if ($category_id == 0) {
+                                        $matched_product_count += $category['category_count'];
+                                    }
+                                    else if ($category['category_id'] == $category_id) {
+                                        $matched_product_count += $category['category_count'];
+                                    }
+                                }
+                            }
+                            $max_page = ceil($matched_product_count / 8);
+                            for ($page=1; $page<=$max_page; $page++) { ?>
+                            <li>
+                                <form action="/purchases/<?=$method?>" method="post">
+                                    <input type="hidden" name="sort_by" value="<?=$sort_by?>">
+                                    <input type="hidden" name="page_no" value="<?=$page?>">
+                                    <input type="hidden" name="category_id" value="<?=$category_id?>">
+                                    <input type="hidden" name="search_str" value="<?=$search_string?>">
+                                    <input type="submit" value="<?=$page?>">
+                                </form>
+                            </li>
                         <?php } ?>
-                        <li><a href="#">last</a></li>
+                        <li>
+                            <form action="/purchases/<?=$method?>" method="post">
+                                <input type="hidden" name="sort_by" value="<?=$sort_by?>">
+                                <input type="hidden" name="page_no" value="<?=$max_page?>">
+                                <input type="hidden" name="category_id" value="<?=$category_id?>">
+                                <input type="hidden" name="search_str" value="<?=$search_string?>">
+                                <input type="submit" value="last">
+                            </form>
+                        </li>
                     </ul>
                 </div>
             </div>

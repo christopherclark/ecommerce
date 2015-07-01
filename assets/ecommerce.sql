@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.6.19, for osx10.7 (i386)
 --
--- Host: localhost    Database: ECommerce
+-- Host: 127.0.0.1    Database: ECommerce
 -- ------------------------------------------------------
 -- Server version	5.5.42
 
@@ -98,7 +98,7 @@ CREATE TABLE `categories` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -107,7 +107,7 @@ CREATE TABLE `categories` (
 
 LOCK TABLES `categories` WRITE;
 /*!40000 ALTER TABLE `categories` DISABLE KEYS */;
-INSERT INTO `categories` VALUES (1,'Horseshoes','0000-00-00 00:00:00','0000-00-00 00:00:00'),(2,'Hand Grenades','0000-00-00 00:00:00','0000-00-00 00:00:00');
+INSERT INTO `categories` VALUES (1,'Horseshoes','0000-00-00 00:00:00','0000-00-00 00:00:00'),(2,'Hand Grenades','0000-00-00 00:00:00','0000-00-00 00:00:00'),(3,'Weapons','2015-05-06 21:39:38','2015-05-06 21:39:38');
 /*!40000 ALTER TABLE `categories` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -179,8 +179,9 @@ CREATE TABLE `photos` (
   `link` varchar(255) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
+  `main` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -189,7 +190,7 @@ CREATE TABLE `photos` (
 
 LOCK TABLES `photos` WRITE;
 /*!40000 ALTER TABLE `photos` DISABLE KEYS */;
-INSERT INTO `photos` VALUES (1,1,'https://s3-us-west-1.amazonaws.com/horseshoes/not-available.png','2015-05-06 10:20:00','2015-05-06 10:20:00'),(2,2,'https://s3-us-west-1.amazonaws.com/horseshoes/fs-m84-stun-grenade.png','2015-05-06 10:20:00','2015-05-06 10:20:00'),(3,3,'https://s3-us-west-1.amazonaws.com/horseshoes/not-available.png','2015-05-06 10:20:00','2015-05-06 10:20:00'),(4,4,'https://s3-us-west-1.amazonaws.com/horseshoes/not-available.png','2015-05-06 10:20:00','2015-05-06 10:20:00'),(5,5,'https://s3-us-west-1.amazonaws.com/horseshoes/fs-franklin-sports-expert-pitching-horseshoe-set.png','2015-05-06 10:20:00','2015-05-06 10:20:00'),(6,6,'https://s3-us-west-1.amazonaws.com/horseshoes/not-available.png','2015-05-06 10:20:00','2015-05-06 10:20:00'),(7,7,'https://s3-us-west-1.amazonaws.com/horseshoes/fs-razer-front-horseshoe.png','2015-05-06 10:20:00','2015-05-06 10:20:00'),(8,8,'https://s3-us-west-1.amazonaws.com/horseshoes/fs-diamond-pony-horseshoe.png','2015-05-06 10:20:00','2015-05-06 10:20:00'),(9,9,'https://s3-us-west-1.amazonaws.com/horseshoes/fs-24-inch-styrofoam.png','2015-05-06 10:20:00','2015-05-06 10:20:00'),(10,10,'https://s3-us-west-1.amazonaws.com/horseshoes/fs-m67-frag-grenade.png','2015-05-06 12:51:00','2015-05-06 12:51:00'),(11,11,'https://s3-us-west-1.amazonaws.com/horseshoes/fs-m18-smoke-grenade.png','2015-05-06 12:51:00','2015-05-06 12:51:00'),(12,12,'https://s3-us-west-1.amazonaws.com/horseshoes/fs-mk2-hand-grenade.png','2015-05-06 12:51:00','2015-05-06 12:51:00');
+INSERT INTO `photos` VALUES (1,1,'https://s3-us-west-1.amazonaws.com/horseshoes/not-available.png','2015-05-06 10:20:00','2015-05-06 10:20:00','main'),(2,2,'https://s3-us-west-1.amazonaws.com/horseshoes/fs-m84-stun-grenade.png','2015-05-06 10:20:00','2015-05-06 10:20:00','main'),(3,3,'https://s3-us-west-1.amazonaws.com/horseshoes/not-available.png','2015-05-06 10:20:00','2015-05-06 10:20:00','main'),(4,4,'https://s3-us-west-1.amazonaws.com/horseshoes/not-available.png','2015-05-06 10:20:00','2015-05-06 10:20:00','main'),(5,5,'https://s3-us-west-1.amazonaws.com/horseshoes/fs-franklin-sports-expert-pitching-horseshoe-set.png','2015-05-06 10:20:00','2015-05-06 10:20:00','main'),(6,6,'https://s3-us-west-1.amazonaws.com/horseshoes/not-available.png','2015-05-06 10:20:00','2015-05-06 10:20:00','main'),(7,7,'https://s3-us-west-1.amazonaws.com/horseshoes/fs-razer-front-horseshoe.png','2015-05-06 10:20:00','2015-05-06 10:20:00','main'),(8,8,'https://s3-us-west-1.amazonaws.com/horseshoes/fs-diamond-pony-horseshoe.png','2015-05-06 10:20:00','2015-05-06 10:20:00','main'),(9,9,'https://s3-us-west-1.amazonaws.com/horseshoes/fs-24-inch-styrofoam.png','2015-05-06 10:20:00','2015-05-06 10:20:00','main'),(10,10,'https://s3-us-west-1.amazonaws.com/horseshoes/fs-m67-frag-grenade.png','2015-05-06 12:51:00','2015-05-06 12:51:00','main'),(11,11,'https://s3-us-west-1.amazonaws.com/horseshoes/fs-m18-smoke-grenade.png','2015-05-06 12:51:00','2015-05-06 12:51:00','main'),(12,12,'https://s3-us-west-1.amazonaws.com/horseshoes/fs-mk2-hand-grenade.png','2015-05-06 12:51:00','2015-05-06 12:51:00','main'),(13,10,'https://s3-us-west-1.amazonaws.com/horseshoes/M67_Fragmentation_Grenade.png','2015-05-06 19:01:32','2015-05-06 19:01:32','no');
 /*!40000 ALTER TABLE `photos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -205,7 +206,7 @@ CREATE TABLE `product_categories` (
   `product_id` int(11) NOT NULL,
   `category_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -214,7 +215,7 @@ CREATE TABLE `product_categories` (
 
 LOCK TABLES `product_categories` WRITE;
 /*!40000 ALTER TABLE `product_categories` DISABLE KEYS */;
-INSERT INTO `product_categories` VALUES (1,1,1),(2,2,2),(3,3,1),(4,4,2),(5,5,1),(6,6,2),(7,7,1),(8,8,1),(9,9,1),(10,10,2),(11,11,2),(12,12,2);
+INSERT INTO `product_categories` VALUES (1,1,1),(2,2,2),(3,3,1),(4,4,2),(5,5,1),(6,6,2),(7,7,1),(8,8,1),(9,9,1),(10,10,2),(11,11,2),(12,12,2),(13,10,3),(14,12,3);
 /*!40000 ALTER TABLE `product_categories` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -244,7 +245,7 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (1,'Acme Horseshoe, set of four','Four entry level horseshoes, for your horse shoeing or horseshoeing pleasure',19.95,222,6,'0000-00-00 00:00:00','2015-05-05 23:44:23'),(2,'M84 Stun Grenade','Effective non-lethal flashbang. Stuns and disorients your enemies',84.95,165,10,'0000-00-00 00:00:00','2015-05-05 23:54:52'),(3,'Acme Horseshoe, used','One horseshoe, lightly used',3.00,194,14,'0000-00-00 00:00:00','2015-05-05 23:57:04'),(4,'RPG-6','Soviet-era anti tank grenade.  If you need to destroy a tank this should serve nicely.  Please note this is NOT \"rocket-propelled\"; RPG is a soviet designation.  ',124.95,88,17,'0000-00-00 00:00:00','2015-05-05 23:57:57'),(5,'Franklin Sports Expert Pitching Horseshoe Set','Franklin Sport Expert Horseshoe Set is an ideal set for the most skilled horseshoe players, it is Sanctioned by the National Horseshoe Pitchers Association. This set features forged carbon steel horse',89.95,160,8,'0000-00-00 00:00:00','2015-05-05 23:46:07'),(6,'M-18 Smoke Grenade','Effective at confusing enemies and ideal for facilitating stealth getaways, the M-18 releases a cloud of thick red smoke.',89.95,239,6,'0000-00-00 00:00:00','2015-05-05 23:54:52'),(7,'Razer Front Horseshoes, set of ten','Razer Front Horseshoes are made of unique flexible tool steel that follows the movements of the hoof capsule, yet strong enough to hold its shape once it is fitted to the hoof. The shoe has a thin, narrow outer rim that easily sinks into the ground surface. This gives the right amount of contact of the frog and sole to the ground, simulating being barefoot.',65.95,115,2,'0000-00-00 00:00:00','2015-05-06 10:07:00'),(8,'Diamond Pony Horseshoe','Forged from special steel to give long wear - Six properly spaced nail holes fit the average pony hoof.',2.69,589,25,'0000-00-00 00:00:00','2015-05-06 10:08:00'),(9,'24\" Styrofoam Horseshoe','Great for making all kinds of pieces.Works amazing with silk florals.',24.99,34,2,'0000-00-00 00:00:00','2015-05-06 10:16:00'),(10,'M67 Fragmentation Grenade','The M67 grenade is a fragmentation hand grenade used by the United States military. The M67 is a further development of the M33 grenade. It has an effective casualty radius of about 15 meters (49 ft).',135.99,17,3,'2015-05-06 12:16:00','2015-05-06 12:16:00'),(11,'M18 Smoke Grenades, set of four','The M18 Colored Smoke Grenade is a 19-ounce US Army grenade used as a ground-to-ground or ground-to-air signaling device, a target or landing zone marking device, or a screening device for unit maneuvering. The M18 has a \"mouse trap\" type igniting fuze with a 1.2 to 2.0 second delay. Ignition ignites the filler and expels it from the grenade body. The top of the grenade is painted red, green, yellow, or violet to indicate the smoke color and the color marked on the side. \n\nWARNING: With both the white AN-M8 and M18, there is a danger of starting a fire if it is used in a dry area. Expended smoke grenade canisters remain hot for some time after burning out and should not be picked up bare-handed. New smoke mixtures are under development that are less harmful if the smoke is inhaled for prolong periods. In enclosed spaces the smoke displaces oxygen and can cause respiratory or oxygen deprivation.',349.95,10,1,'2015-05-06 12:16:00','2015-05-06 12:16:00'),(12,'MK 2 Grenade','The Mk 2 defensive hand grenade (sometimes written Mk II) is a fragmentation hand grenade used by the U.S. armed forces during World War II and in later conflicts including the Vietnam War. It was manufactured with grooves in the cast iron for a better grip when throwing. This gave it the appearance of a pineapple fruit, giving it the common nickname of the \"iron pineapple\". Made with a M6 detonating fuse and a Low Explosive (EC powder) filler.',109.50,24,8,'2015-05-06 12:16:00','2015-05-06 12:16:00');
+INSERT INTO `products` VALUES (1,'Acme Horseshoe, set of four','Four entry level horseshoes, for your horse shoeing or horseshoeing pleasure',19.95,222,6,'0000-00-00 00:00:00','2015-05-05 23:44:23'),(2,'M84 Stun Grenade','Effective non-lethal flashbang. Stuns and disorients your enemies',84.95,165,10,'0000-00-00 00:00:00','2015-05-05 23:54:52'),(3,'Acme Horseshoe, used','One horseshoe, lightly used',3.00,194,14,'0000-00-00 00:00:00','2015-05-05 23:57:04'),(4,'RPG-6','Soviet-era anti tank grenade.  If you need to destroy a tank this should serve nicely.  Please note this is NOT \"rocket-propelled\"; RPG is a soviet designation.  ',124.95,88,17,'0000-00-00 00:00:00','2015-05-05 23:57:57'),(5,'Franklin Sports Expert Pitching Horseshoe Set','Franklin Sport Expert Horseshoe Set is an ideal set for the most skilled horseshoe players, it is Sanctioned by the National Horseshoe Pitchers Association. This set features forged carbon steel horse',89.95,160,8,'0000-00-00 00:00:00','2015-05-05 23:46:07'),(6,'M-18 Smoke Grenade','Effective at confusing enemies and ideal for facilitating stealth getaways, the M-18 releases a cloud of thick red smoke.',89.95,239,6,'0000-00-00 00:00:00','2015-05-05 23:54:52'),(7,'Razer Front Horseshoes, set of ten','Razer Front Horseshoes are made of unique flexible tool steel that follows the movements of the hoof capsule, yet strong enough to hold its shape once it is fitted to the hoof. The shoe has a thin, narrow outer rim that easily sinks into the ground surface. This gives the right amount of contact of the frog and sole to the ground, simulating being barefoot.',65.95,115,2,'0000-00-00 00:00:00','2015-05-06 20:39:32'),(8,'Diamond Pony Horseshoe','Forged from special steel to give long wear - Six properly spaced nail holes fit the average pony hoof.',2.69,589,25,'0000-00-00 00:00:00','2015-05-06 10:08:00'),(9,'24\" Styrofoam Horseshoe','Great for making all kinds of pieces.Works amazing with silk florals.',24.99,34,2,'0000-00-00 00:00:00','2015-05-06 10:16:00'),(10,'M67 Fragmentation Grenade','The M67 grenade is a fragmentation hand grenade used by the United States military. The M67 is a further development of the M33 grenade. It has an effective casualty radius of about 15 meters (49 ft).',135.99,17,3,'2015-05-06 12:16:00','2015-05-06 21:39:38'),(11,'M18 Smoke Grenades, set of four','The M18 Colored Smoke Grenade is a 19-ounce US Army grenade used as a ground-to-ground or ground-to-air signaling device, a target or landing zone marking device, or a screening device for unit maneuvering. The M18 has a \"mouse trap\" type igniting fuze with a 1.2 to 2.0 second delay. Ignition ignites the filler and expels it from the grenade body. The top of the grenade is painted red, green, yellow, or violet to indicate the smoke color and the color marked on the side. \n\nWARNING: With both the white AN-M8 and M18, there is a danger of starting a fire if it is used in a dry area. Expended smoke grenade canisters remain hot for some time after burning out and should not be picked up bare-handed. New smoke mixtures are under development that are less harmful if the smoke is inhaled for prolong periods. In enclosed spaces the smoke displaces oxygen and can cause respiratory or oxygen deprivation.',349.95,10,1,'2015-05-06 12:16:00','2015-05-06 12:16:00'),(12,'MK 2 Grenade','The Mk 2 defensive hand grenade (sometimes written Mk II) is a fragmentation hand grenade used by the U.S. armed forces during World War II and in later conflicts including the Vietnam War. It was manufactured with grooves in the cast iron for a better grip when throwing. This gave it the appearance of a pineapple fruit, giving it the common nickname of the \"iron pineapple\". Made with a M6 detonating fuse and a Low Explosive (EC powder) filler.',109.50,24,8,'2015-05-06 12:16:00','2015-05-06 21:48:13');
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -286,4 +287,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-05-06 13:13:25
+-- Dump completed on 2015-05-06 21:51:58
