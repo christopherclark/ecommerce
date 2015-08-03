@@ -30,11 +30,11 @@
 		echo "<div class='red'>" . $this->session->flashdata('login_errors') . "</div>" ?>
 		<div class='form-group'>
 			<label for='email'>Email: </label>
-			<input type='text' class='form-control' name='email' id='email'>
+			<input type='text' class='form-control' name='email' id='email' value='roderickwoodman@gmail.com'>
 		</div>
 		<div class='form-group'>
 			<label for='password'>Password: </label>
-			<input type='password' class='form-control' name='password' id='password'>
+			<input type='password' class='form-control' name='password' id='password' value='password'>
 		</div>
 		<input type='submit' class='btn btn-primary' value='Login'> 
 	</form>
