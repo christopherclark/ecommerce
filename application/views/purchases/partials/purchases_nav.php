@@ -6,6 +6,7 @@
 			</a>
 		</ul>
 		<ul class="nav navbar-nav navbar-right">
+			<li><a href="/admins">Admin Login</a></li>
 			<li><a href="/purchases/view_cart">Shopping Cart (<?php
 					if(FALSE !== ($this->session->userdata('total_quantity'))) {
 						echo $this->session->userdata('total_quantity');
